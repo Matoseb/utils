@@ -4,7 +4,7 @@ export class Spring {
       position: 0,
       drag: 0.75,
       strength: 0.1,
-      ...options
+      ...options,
     }
 
     this.velocity = 0
@@ -43,29 +43,29 @@ export default class Smoother {
   //       strength: 0.1,
   //       ...options
   //     }
-  
+
   //     this.velocity = 0
   //     this.position = this.target = this.settings.position
   //   }
-  
+
   //   target(target) {
   //     this.target = target
   //   }
-  
+
   //   update(target = this.target) {
   //     const { strength, drag } = this.settings
-  
+
   //     let force = target - this.position
   //     force *= strength
-  
+
   //     this.velocity *= drag
   //     this.velocity += force
-  
+
   //     this.position += this.velocity
-  
+
   //     return this.position
   //   }
-  
+
   //   valueOf() {
   //     return this.position
   //   }

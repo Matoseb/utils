@@ -1,35 +1,56 @@
 {
-  "name": "boilerplate-package",
+  "name": "@matoseb/utils",
   "version": "1.0.0",
-  "description": "JS package boilerplate",
-  "main": "index.js",
+  "description": "Javascript Utilitaries",
+  "main": "dist/index.js",
   "scripts": {
+    "lint": "eslint '**/*.js'",
+    "lint:fix": "npm run lint -- --fix",
+    "format": "prettier '**/*.js' --write",
     "prebuild": "rimraf dist",
     "build": "rollup -c"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "npm run lint:fix",
+      "git add"
+    ]
   },
   "files": [
     "dist"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Matoseb/umd-boilerplate.git"
+    "url": "git+https://github.com/Matoseb/utils.git"
   },
-  "author": "Sébastien Matos <matos.sebastien@gmail.com> (http://ecal-mid.ch/)",
+  "engines": {
+    "node": ">=10"
+  },
+  "author": "Sébastien Matos <matos.sebastien@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Matoseb/umd-boilerplate/issues"
+    "url": "https://github.com/Matoseb/utils/issues"
   },
-  "homepage": "https://github.com/Matoseb/umd-boilerplate#readme",
+  "homepage": "https://github.com/Matoseb/utils#readme",
   "devDependencies": {
     "@babel/core": "^7.17.5",
     "@babel/preset-env": "^7.16.11",
+    "eslint": "^8.11.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.5",
+    "prettier": "^2.5.1",
     "rimraf": "^3.0.2",
     "rollup": "^2.70.0",
     "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-multi-input": "^1.3.1",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-terser": "^7.0.2"
-  },
-  "dependencies": {
-    "rollup-plugin-multi-input": "^1.3.1"
   }
 }

@@ -56,17 +56,12 @@ export function quotient(n, m) {
 
 export function random(a, b) {
   if (arguments.length === 1) {
-
     if (Array.isArray(a)) {
-
       const index = Math.floor(random(a.length))
 
       return a[index]
-
     } else if (typeof a === 'object') {
-
       return random(Object.values(a))
-
     } else if (isNumber(a)) {
       return random(0, a)
     }
