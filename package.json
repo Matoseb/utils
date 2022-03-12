@@ -1,0 +1,32 @@
+{
+  "name": "boilerplate-package",
+  "version": "1.0.0",
+  "description": "JS package boilerplate",
+  "main": "index.js",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "rollup -c"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Matoseb/umd-boilerplate.git"
+  },
+  "author": "Sébastien Matos <matos.sebastien@gmail.com> (http://ecal-mid.ch/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Matoseb/umd-boilerplate/issues"
+  },
+  "homepage": "https://github.com/Matoseb/umd-boilerplate#readme",
+  "devDependencies": {
+    "@babel/core": "^7.17.5",
+    "@babel/preset-env": "^7.16.11",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.70.0",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-terser": "^7.0.2"
+  }
+}
