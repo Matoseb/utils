@@ -1,31 +1,31 @@
 // https://www.youtube.com/watch?v=4joAZ2RQNys
 
-// import babel from "rollup-plugin-babel"
+import babel from 'rollup-plugin-babel'
 import resolve from 'rollup-plugin-node-resolve'
-// import { terser } from "rollup-plugin-terser"
+import { terser } from 'rollup-plugin-terser'
 
-// const NAME = 'mylibrary'
+const NAME = 'utils'
 const DIR = 'dist'
-// const PRODUCTION = !process.env.ROLLUP_WATCH
+const PRODUCTION = !process.env.ROLLUP_WATCH
 
 export default {
-  input: ['src/**/*.js'],
+  input: ['src/index.js'],
   external: [],
-  output: {
-    format: 'esm',
-    dir: `${DIR}`,
-  },
+  output: [
+    {
+      format: 'esm',
+      file: `${DIR}/${NAME}.esm.js`,
+    },
+    {
+      format: 'cjs',
+      file: `${DIR}/${NAME}.cjs.js`,
+    },
+  ],
   plugins: [
-    // multiInput(),
     resolve(),
-    // babel({
-    //   exclude: 'node_modules/**'
-    // }),
-    // PRODUCTION && terser(),
+    babel({
+      exclude: 'node_modules/**',
+    }),
+    PRODUCTION && terser(),
   ],
 }
-
-// export default outputs.map(output => ({
-//   ...common,
-//   output
-// }))

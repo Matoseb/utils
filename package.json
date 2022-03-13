@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "description": "Javascript Utilitaries",
   "main": "dist/index.js",
+  "module": "dist/index.js",
+  "sideEffects": false,
   "scripts": {
     "lint": "eslint '**/*.js'",
     "lint:fix": "npm run lint -- --fix",
@@ -29,7 +31,7 @@
     "url": "git+https://github.com/Matoseb/utils.git"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=16"
   },
   "author": "Sébastien Matos <matos.sebastien@gmail.com>",
   "license": "ISC",
