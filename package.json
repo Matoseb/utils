@@ -2,8 +2,9 @@
   "name": "@matoseb/utils",
   "version": "1.0.0",
   "description": "Javascript Utilitaries",
-  "main": "dist/index.js",
-  "module": "dist/index.js",
+  "main": "dist/utils.cjs.js",
+  "module": "dist/utils.esm.js",
+  "browser": "dist/utils.umd.js",
   "sideEffects": false,
   "scripts": {
     "lint": "eslint '**/*.js'",

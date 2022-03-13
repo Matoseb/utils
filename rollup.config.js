@@ -4,8 +4,8 @@ import babel from 'rollup-plugin-babel'
 import resolve from 'rollup-plugin-node-resolve'
 import { terser } from 'rollup-plugin-terser'
 
-const NAME = 'utils'
-const DIR = 'dist'
+// const NAME = 'utils'
+// const DIR = 'dist'
 const PRODUCTION = !process.env.ROLLUP_WATCH
 
 export default {
@@ -13,12 +13,17 @@ export default {
   external: [],
   output: [
     {
+      format: 'umd',
+      file: 'dist/utils.umd.js',
+      name: 'Utils',
+    },
+    {
       format: 'esm',
-      file: `${DIR}/${NAME}.esm.js`,
+      file: 'dist/utils.esm.js',
     },
     {
       format: 'cjs',
-      file: `${DIR}/${NAME}.cjs.js`,
+      file: 'dist/utils.cjs.js',
     },
   ],
   plugins: [
