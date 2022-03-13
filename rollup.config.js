@@ -1,6 +1,6 @@
 // https://www.youtube.com/watch?v=4joAZ2RQNys
 
-import babel from 'rollup-plugin-babel'
+// import babel from 'rollup-plugin-babel'
 import resolve from 'rollup-plugin-node-resolve'
 import { terser } from 'rollup-plugin-terser'
 
@@ -15,7 +15,7 @@ export default {
     {
       format: 'umd',
       file: 'dist/utils.umd.js',
-      name: 'Utils',
+      name: 'MatosebUtils',
     },
     {
       format: 'esm',
@@ -28,9 +28,10 @@ export default {
   ],
   plugins: [
     resolve(),
-    babel({
-      exclude: 'node_modules/**',
-    }),
+    // babel({
+    //   runtimeHelpers: true,
+    //   exclude: 'node_modules/**',
+    // }),
     PRODUCTION && terser(),
   ],
 }
