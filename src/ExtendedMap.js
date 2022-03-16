@@ -1,6 +1,6 @@
 const noValue = undefined
 
-export default class BetterMap extends Map {
+export default class ExtendedMap extends Map {
   constructor() {
     super(...arguments)
   }

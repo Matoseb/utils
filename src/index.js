@@ -8,4 +8,4 @@ export * as object from './object.js'
 export * as string from './string.js'
 export * as time from './time.js'
 
-export { default as BetterMap } from './BetterMap.js'
+export { default as ExtendedMap } from './ExtendedMap.js'
