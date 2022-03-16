@@ -1,26 +1,40 @@
-import { clamp } from './math'
+import { lerp, smoothDamp } from './math'
 
-export class Spring {
-  constructor(options = {}) {
+class Smoother {
+  constructor(options) {
     this.settings = {
       value: 0,
-      drag: 0.75,
-      strength: 0.1,
+      target: 0,
       ...options,
     }
 
     this.velocity = 0
     this.value = this.target = this.settings.value
   }
-
-  follow(target) {
+  update() {
+    return this.value
+  }
+  setTarget(target) {
     this.target = target
   }
+  valueOf() {
+    return this.value
+  }
+}
 
-  update(target = this.target) {
+export class Spring extends Smoother {
+  constructor(options) {
+    super({
+      drag: 0.75,
+      strength: 0.1,
+      ...options,
+    })
+  }
+
+  update() {
     const { strength, drag } = this.settings
 
-    let force = target - this.value
+    let force = this.target - this.value
     force *= strength
 
     this.velocity *= drag
@@ -28,61 +42,38 @@ export class Spring {
 
     this.value += this.velocity
 
-    return this.value
-  }
-
-  valueOf() {
-    return this.value
+    return super.update()
   }
 }
 
-export class SmoothDamper {
-  constructor(options = {}) {
-    this.settings = {
-      value: 0,
+export class Lerper extends Smoother {
+  constructor(options) {
+    super({
+      amount: 0.05,
+      ...options,
+    })
+  }
+
+  update() {
+    this.value = lerp(this.value, this.target, this.settings.amount)
+    return super.update()
+  }
+}
+
+export class SmoothDamper extends Smoother {
+  constructor(options) {
+    super({
       smoothness: 1,
       maxSpeed: Infinity,
       ...options,
-    }
-
-    this.velocity = 0
-    this.value = this.settings.value
-  }
-
-  setTarget(target) {
-    this.target = target
+    })
   }
 
   update(deltaTime) {
-    this.value = this.smoothDamp(this.value, this.target, deltaTime)
-    return this.value
-  }
-
-  valueOf() {
-    return this.value
-  }
-
-  smoothDamp(
-    current,
-    target,
-    deltaTime
-  ) {
     const { smoothness, maxSpeed } = this.settings
-    let num = 2 / (smoothness || 0.00001);
-    let num2 = num * deltaTime;
-    let num3 = 1 / (1 + num2 + 0.48 * num2 * num2 + 0.235 * num2 * num2 * num2);
-    let num4 = current - target;
-    let num5 = target;
-    let num6 = maxSpeed * smoothness;
-    num4 = clamp(num4, -num6, num6);
-    target = current - num4;
-    let num7 = (this.velocity + num * num4) * deltaTime;
-    this.velocity = (this.velocity - num * num7) * num3;
-    let num8 = target + (num4 + num7) * num3;
-    if (num5 - current > 0 === num8 > num5) {
-      num8 = num5;
-      this.velocity = (num8 - num5) / deltaTime;
-    }
-    return num8;
+    const results = smoothDamp(this.value, this.target, this.velocity, smoothness, maxSpeed, deltaTime)
+    this.value = results.value
+    this.velocity = results.velocity
+    return super.update()
   }
 }

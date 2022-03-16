@@ -2,7 +2,7 @@ export function lerp(a, b, t) {
   return t * (b - a) + a
 }
 
-export function lerpInvert(a, b, t) {
+export function lerpInv(a, b, t) {
   return (t - a) / (b - a)
 }
 
@@ -28,12 +28,35 @@ export function lerpScale(a, b, t) {
   return 1 / (t * (1 / b - 1 / a) + 1 / a)
 }
 
-export function map(num, start1, stop1, start2, stop2) {
-  return ((num - start1) / (stop1 - start1)) * (stop2 - start2) + start2
+export function smoothDamp(
+  current,
+  target,
+  velocity,
+  smoothness = 1,
+  maxSpeed = Infinity,
+  deltaTime = 0
+) {
+  let num = 2 / (smoothness || 0.00001);
+  let num2 = num * deltaTime;
+  let num3 = 1 / (1 + num2 + 0.48 * num2 * num2 + 0.235 * num2 * num2 * num2);
+  let num4 = current - target;
+  let num5 = target;
+  let num6 = maxSpeed * smoothness;
+  num4 = clamp(num4, -num6, num6);
+  target = current - num4;
+  let num7 = (velocity + num * num4) * deltaTime;
+  velocity = (velocity - num * num7) * num3;
+  let value = target + (num4 + num7) * num3;
+  if (num5 - current > 0 === value > num5) {
+    value = num5;
+    velocity = (value - num5) / deltaTime;
+  }
+  return { value, velocity };
 }
 
-export function mapClamped(num, start1, stop1, start2, stop2) {
-  return map(clamp(num, start1, stop1), start1, stop1, start2, stop2)
+export function map(num, start1, stop1, start2, stop2, clamped = false) {
+  if (clamped) return map(clamp(num, start1, stop1), start1, stop1, start2, stop2, false)
+  return ((num - start1) / (stop1 - start1)) * (stop2 - start2) + start2
 }
 
 export function clamp(num, min, max) {
