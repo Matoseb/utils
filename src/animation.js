@@ -36,7 +36,7 @@ export class Spring {
   }
 }
 
-export class Smoothdamper {
+export class SmoothDamper {
   constructor(options = {}) {
     this.settings = {
       value: 0,
