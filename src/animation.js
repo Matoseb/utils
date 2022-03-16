@@ -3,14 +3,14 @@ import { clamp } from './math'
 export class Spring {
   constructor(options = {}) {
     this.settings = {
-      position: 0,
+      value: 0,
       drag: 0.75,
       strength: 0.1,
       ...options,
     }
 
     this.velocity = 0
-    this.position = this.target = this.settings.position
+    this.value = this.target = this.settings.value
   }
 
   follow(target) {
@@ -20,19 +20,19 @@ export class Spring {
   update(target = this.target) {
     const { strength, drag } = this.settings
 
-    let force = target - this.position
+    let force = target - this.value
     force *= strength
 
     this.velocity *= drag
     this.velocity += force
 
-    this.position += this.velocity
+    this.value += this.velocity
 
-    return this.position
+    return this.value
   }
 
   valueOf() {
-    return this.position
+    return this.value
   }
 }
 
