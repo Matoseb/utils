@@ -14,7 +14,7 @@ class Smoother {
   update() {
     return this.value
   }
-  setTarget(target) {
+  setTarget(target = this.target) {
     this.target = target
   }
   valueOf() {
@@ -31,7 +31,8 @@ export class Spring extends Smoother {
     })
   }
 
-  update() {
+  update(target) {
+    super.setTarget(target)
     const { strength, drag } = this.settings
 
     let force = this.target - this.value
@@ -42,7 +43,7 @@ export class Spring extends Smoother {
 
     this.value += this.velocity
 
-    return super.update()
+    return this.value
   }
 }
 
@@ -54,9 +55,10 @@ export class Lerper extends Smoother {
     })
   }
 
-  update() {
+  update(target) {
+    super.setTarget(target)
     this.value = lerp(this.value, this.target, this.settings.amount)
-    return super.update()
+    return this.value
   }
 }
 
@@ -69,11 +71,12 @@ export class SmoothDamper extends Smoother {
     })
   }
 
-  update(deltaTime) {
+  update(deltaTime, target) {
+    super.setTarget(target)
     const { smoothness, maxSpeed } = this.settings
     const results = smoothDamp(this.value, this.target, this.velocity, smoothness, maxSpeed, deltaTime)
     this.value = results.value
     this.velocity = results.velocity
-    return super.update()
+    return this.value
   }
 }
