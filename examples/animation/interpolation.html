@@ -1,0 +1,116 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      .animButton {
+        display: block;
+        /* position: absolute; */
+        top: 0;
+        left: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <button class="animButton">Move</button>
+    <canvas class="mainCanvas"></canvas>
+    <script type="module">
+      import {
+        animation,
+        dom,
+        math,
+      } from './node_modules/@matoseb/utils/dist/utils.esm.js'
+
+      const canvas = dom.query('.mainCanvas')
+      const ctx = canvas.getContext('2d')
+
+      const lerper = new animation.Lerper({
+        amount: 0.05,
+      })
+      const linear = new animation.SmoothDamper({
+        smoothness: 0.001,
+        maxSpeed: 15,
+      })
+      const smoother = new animation.SmoothDamper({
+        smoothness: 500,
+      })
+
+      let target = 0
+
+      dom.query('.animButton').onclick = () => {
+        target = target === 0 ? 1 : 0
+        lerper.setTarget(target)
+        smoother.setTarget(target)
+        linear.setTarget(target)
+      }
+      resize()
+      update()
+      function update() {
+        const { width, height } = canvas
+        const radius = 50
+        const dist = width - radius * 2
+
+        ctx.save()
+        ctx.fillStyle = 'rgba(255,255,255,0.1)'
+        ctx.fillRect(0, 0, width, height)
+        ctx.translate(radius, radius)
+
+        drawCircle(target * dist, 0, radius, 'red', 'None')
+
+        drawCircle(lerper.update() * dist, radius * 2, radius, 'blue', 'lerp')
+
+        drawCircle(
+          smoother.update() * dist,
+          radius * 4,
+          radius,
+          'green',
+          'smooth'
+        )
+
+        drawCircle(
+          linear.update() * dist,
+          radius * 6,
+          radius,
+          'magenta',
+          'linear'
+        )
+
+        ctx.restore()
+
+        requestAnimationFrame(update)
+      }
+
+      function resize() {
+        canvas.width = window.innerWidth
+        canvas.height = window.innerHeight
+      }
+
+      function drawCircle(x, y, radius, fill, text) {
+        const fontSize = radius * 0.4
+        ctx.save()
+        ctx.font = `${fontSize}px Arial`
+        ctx.textAlign = 'center'
+        ctx.textBaseline = 'middle'
+        ctx.translate(x, y)
+        ctx.fillStyle = fill
+        ctx.beginPath()
+        ctx.arc(0, 0, radius, 0, math.TAU)
+        ctx.fill()
+        ctx.fillStyle = 'white'
+        ctx.fillText(text, 0, 0)
+        ctx.restore()
+      }
+
+      window.addEventListener('resize', resize)
+    </script>
+  </body>
+</html>

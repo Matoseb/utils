@@ -1,9 +1,35 @@
-export function lerp(a, b, t) {
-  return t * (b - a) + a
+/**
+ * Linear interpolation, maps the amount between 0 and 1 to a range between start and stop
+ * @param  {number} start
+ * @param  {number} stop
+ * @param  {number} amount
+ * @returns  {number} Returns the mapped value
+ */
+export function lerp(start, stop, amount) {
+  return amount * (stop - start) + start
 }
 
-export function lerpInv(a, b, t) {
-  return (t - a) / (b - a)
+/**
+ * Inverse of the lerp() function
+ * @param  {number} start
+ * @param  {number} stop
+ * @param  {number} amount
+ * @returns  {number} Returns the value mapped between 0 and 1
+ */
+export function lerpInv(start, stop, amount) {
+  return (amount - start) / (stop - start)
+}
+
+// angles
+export const TAU = 2 * Math.PI
+export const QUARTER_PI = Math.PI * 0.5
+
+export function toRadians(degrees) {
+  return degrees * (Math.PI / 180)
+}
+
+export function toDegrees(radians) {
+  return radians * (180 / Math.PI)
 }
 
 /**
@@ -11,11 +37,13 @@ export function lerpInv(a, b, t) {
  * @param {number} a start
  * @param {number} b end
  * @param {number} t amount
+ * @author freyaholmer
+ * @author khyperia
  * @returns {number}
  */
 export function lerpExp(a, b, t) {
   return a * Math.pow(b / a, t)
-} // @freyaholmer, @khyperia
+}
 
 /**
  * Lerp for Scale/Zooming {@link https://gamedev.stackexchange.com/questions/4093/zooming-and-panning-a-camera-simultaneously-causes-a-swooping-effect more}.
@@ -36,26 +64,27 @@ export function smoothDamp(
   maxSpeed = Infinity,
   deltaTime = 0
 ) {
-  let num = 2 / (smoothness || 0.00001);
-  let num2 = num * deltaTime;
-  let num3 = 1 / (1 + num2 + 0.48 * num2 * num2 + 0.235 * num2 * num2 * num2);
-  let num4 = current - target;
-  let num5 = target;
-  let num6 = maxSpeed * smoothness;
-  num4 = clamp(num4, -num6, num6);
-  target = current - num4;
-  let num7 = (velocity + num * num4) * deltaTime;
-  velocity = (velocity - num * num7) * num3;
-  let value = target + (num4 + num7) * num3;
+  let num = 2 / (smoothness || 0.00001)
+  let num2 = num * deltaTime
+  let num3 = 1 / (1 + num2 + 0.48 * num2 * num2 + 0.235 * num2 * num2 * num2)
+  let num4 = current - target
+  let num5 = target
+  let num6 = maxSpeed * smoothness
+  num4 = clamp(num4, -num6, num6)
+  target = current - num4
+  let num7 = (velocity + num * num4) * deltaTime
+  velocity = (velocity - num * num7) * num3
+  let value = target + (num4 + num7) * num3
   if (num5 - current > 0 === value > num5) {
-    value = num5;
-    velocity = (value - num5) / deltaTime;
+    value = num5
+    velocity = (value - num5) / deltaTime
   }
-  return { value, velocity };
+  return { value, velocity }
 }
 
 export function map(num, start1, stop1, start2, stop2, clamped = false) {
-  if (clamped) return map(clamp(num, start1, stop1), start1, stop1, start2, stop2, false)
+  if (clamped)
+    return map(clamp(num, start1, stop1), start1, stop1, start2, stop2, false)
   return ((num - start1) / (stop1 - start1)) * (stop2 - start2) + start2
 }
 
@@ -86,8 +115,10 @@ export function random(a, b) {
     } else if (typeof a === 'object') {
       return random(Object.values(a))
     } else if (isNumber(a)) {
-      return random(0, a)
+      return Math.random() * a
     }
+  } else if (arguments.length === 0) {
+    return Math.random()
   }
 
   return Math.random() * (b - a) + a

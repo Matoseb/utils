@@ -1,4 +1,5 @@
 import { lerp, smoothDamp } from './math'
+import { Clock } from './time'
 
 class Smoother {
   constructor(options) {
@@ -69,12 +70,20 @@ export class SmoothDamper extends Smoother {
       maxSpeed: Infinity,
       ...options,
     })
+    this.clock = new Clock()
   }
 
-  update(deltaTime, target) {
+  update(deltaTime = this.clock.tick(), target) {
     super.setTarget(target)
     const { smoothness, maxSpeed } = this.settings
-    const results = smoothDamp(this.value, this.target, this.velocity, smoothness, maxSpeed, deltaTime)
+    const results = smoothDamp(
+      this.value,
+      this.target,
+      this.velocity,
+      smoothness,
+      maxSpeed,
+      deltaTime
+    )
     this.value = results.value
     this.velocity = results.velocity
     return this.value
