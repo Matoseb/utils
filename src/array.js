@@ -9,6 +9,10 @@ export function fill(amount, entry) {
   return new Array(amount).fill(entry)
 }
 
+export function last(arr) {
+  return arr[arr.length - 1]
+}
+
 export function range(start = 0, stop, step = 1) {
   if (stop === undefined) [start, stop] = [0, start]
 

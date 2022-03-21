@@ -1,6 +1,6 @@
-const noValue = undefined
+const NO_VALUE = undefined
 
-export default class ExtendedMap extends Map {
+export default class MapExtended extends Map {
   constructor() {
     super(...arguments)
   }
@@ -11,14 +11,14 @@ export default class ExtendedMap extends Map {
 
   shift() {
     const { value, done } = this.entries().next()
-    if (done) return noValue
+    if (done) return NO_VALUE
     this.delete(value[0])
     return value
   }
 
   pop() {
     const value = [...this.entries()].pop()
-    if (!value) return noValue
+    if (!value) return NO_VALUE
     this.delete(value[0])
     return value
   }

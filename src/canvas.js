@@ -44,42 +44,39 @@ export function toCanvas(
 // https://stackoverflow.com/questions/7054272/how-to-draw-smooth-curve-through-n-points-using-javascript-html5-canvas
 // origPoints = [[x, y], [x, y], [x, y], ...]
 export function smoothenPath(origPoints, { tension = 0.5, quality = 16 } = {}) {
-
   const points = [...origPoints]
-  const res = []	// clone array
-  points.unshift(origPoints[0]);
-  points.push(origPoints[origPoints.length - 1]);
+  const res = [] // clone array
+  points.unshift(origPoints[0])
+  points.push(origPoints[origPoints.length - 1])
 
   for (let i = 1; i < points.length - 2; i++) {
-
     for (let t = 0; t <= quality; t++) {
-
       const curr = points[i]
       const next1 = points[i + 1]
       const next2 = points[i + 2]
       const prev1 = points[i - 1]
-      const t1x = (next1[0] - prev1[0]) * tension;
-      const t2x = (next2[0] - curr[0]) * tension;
+      const t1x = (next1[0] - prev1[0]) * tension
+      const t2x = (next2[0] - curr[0]) * tension
 
-      const t1y = (next1[1] - prev1[1]) * tension;
-      const t2y = (next2[1] - curr[1]) * tension;
+      const t1y = (next1[1] - prev1[1]) * tension
+      const t2y = (next2[1] - curr[1]) * tension
 
       // calc step
-      const st = t / quality;
+      const st = t / quality
 
       // calc cardinals
-      const c1 = 2 * Math.pow(st, 3) - 3 * Math.pow(st, 2) + 1;
-      const c2 = -(2 * Math.pow(st, 3)) + 3 * Math.pow(st, 2);
-      const c3 = Math.pow(st, 3) - 2 * Math.pow(st, 2) + st;
-      const c4 = Math.pow(st, 3) - Math.pow(st, 2);
+      const c1 = 2 * Math.pow(st, 3) - 3 * Math.pow(st, 2) + 1
+      const c2 = -(2 * Math.pow(st, 3)) + 3 * Math.pow(st, 2)
+      const c3 = Math.pow(st, 3) - 2 * Math.pow(st, 2) + st
+      const c4 = Math.pow(st, 3) - Math.pow(st, 2)
 
-      const x = c1 * curr[0] + c2 * next1[0] + c3 * t1x + c4 * t2x;
-      const y = c1 * curr[1] + c2 * next1[1] + c3 * t1y + c4 * t2y;
+      const x = c1 * curr[0] + c2 * next1[0] + c3 * t1x + c4 * t2x
+      const y = c1 * curr[1] + c2 * next1[1] + c3 * t1y + c4 * t2y
 
       //store points in array
-      res.push([x, y]);
+      res.push([x, y])
     }
   }
 
-  return res;
+  return res
 }

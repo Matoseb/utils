@@ -6,3 +6,22 @@ export function iterate(obj, callback, method = 'map') {
 export function deepClone(obj) {
   return JSON.parse(JSON.stringify(obj))
 }
+
+export function* Enum(a, b = []) {
+  let i = 0
+  while (true) {
+    let v
+    if (arguments.length === 0) v = Symbol()
+    else if (
+      typeof a === 'function' &&
+      !(a.prototype && a.prototype.constructor === a)
+    ) {
+      v = a.call(this, i)
+    } else {
+      v = a
+    }
+    b.push(v)
+    i++
+    yield v
+  }
+}
