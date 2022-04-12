@@ -22,4 +22,13 @@ export default class MapExtended extends Map {
     this.delete(value[0])
     return value
   }
+  
+  getOrCreate(key, value) {
+    let result = this.get(key)
+    if (result === undefined) {
+      this.set(key, value)
+      result = value
+    }
+    return result
+  }
 }
