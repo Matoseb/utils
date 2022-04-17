@@ -42,7 +42,9 @@ export default {
     return { librairies: [] }
   },
   async mounted() {
-    let libs = await import('@matoseb/utils/src/')
+    let libs = await import(
+      'https://unpkg.com/@matoseb/utils@latest/src/index.js'
+    )
     // console.log(libs)
     libs = Object.entries(libs).map(([name, lib]) => ({ name, lib }))
     libs.sort((a, b) => a.name.localeCompare(b.name))

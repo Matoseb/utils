@@ -16,7 +16,6 @@
     "vite-plugin-vue2": "^1.9.3"
   },
   "dependencies": {
-    "@matoseb/utils": "file:..",
     "stringify-object": "^4.0.1",
     "the-new-css-reset": "^1.5.1",
     "v-tooltip": "^2.1.3",
