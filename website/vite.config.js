@@ -6,6 +6,9 @@ export default {
     minify: 'esnext',
     polyfillDynamicImport: false,
   },
+  // optimizeDeps: {
+  //   exclude: ["./"],
+  // },
   css: {
     preprocessorOptions: {
       scss: {
