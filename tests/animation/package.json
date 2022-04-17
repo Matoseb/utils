@@ -4,9 +4,10 @@
   "main": "index.html",
   "private": true,
   "scripts": {
-    "start": "node index.js"
+    "start": "python -m SimpleHTTPServer"
   },
   "dependencies": {
-    "@matoseb/utils": "file:../.."
+    "@matoseb/utils": "file:../..",
+    "live-server": "^1.1.0"
   }
 }

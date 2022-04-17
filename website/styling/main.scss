@@ -1,0 +1,25 @@
+@import './awesome-notifications/style.scss';
+@import './v-tooltip.scss';
+
+html,
+body {
+  font-family: Helvetica, Arial, sans-serif;
+  margin: 0;
+  width: 100%;
+  /* height: 100%; */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+summary {
+  all: revert;
+  cursor: pointer;
+}
+
+h1,
+h2 {
+  font-weight: bold;
+  display: inline;
+}

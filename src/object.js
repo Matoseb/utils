@@ -4,6 +4,7 @@ export function iterate(obj, callback, method = 'map') {
 }
 
 export function deepClone(obj) {
+  console.warn('deepClone() is deprecated, use structuredClone() instead')
   return JSON.parse(JSON.stringify(obj))
 }
 

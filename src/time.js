@@ -8,7 +8,7 @@ export class Clock {
   getTime() {
     return globalThis.window ? performance.now() : Date.now()
   }
-  tick() {
+  delta() {
     const timeNow = this.getTime()
     const deltaTime = timeNow - this.time
     this.time = timeNow
