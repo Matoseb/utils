@@ -24,6 +24,10 @@
       "git add"
     ]
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "public"
+  },
   "files": [
     "dist"
   ],
