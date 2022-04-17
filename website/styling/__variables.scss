@@ -1,6 +1,5 @@
-$color-dark: black;
-$color-dark-alpha: rgba(0, 0, 0, 0.5);
-$color-light: white;
+$color-dark: var(--color-dark);
+$color-light: var(--color-light);
 
 $gap-medium: 0.66rem;
 $gap-small: 0.33rem;

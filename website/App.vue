@@ -1,9 +1,16 @@
 <template lang="pug">
   #app
     header.header
-      h1 @matoseb/utils
+      h1
+        Clipboard(
+          name="@matoseb/utils"
+          text='<script src="https://unpkg.com/@matoseb/utils"></script>'
+        )
     main.libs
+      .libs__loading(v-if="loading")
+        | Loading package from unpkg.com...
       details.libs__modules(
+        v-else
         v-for="(item, index) in librairies"
         open
       )
@@ -20,14 +27,28 @@
             :method="method"
             :key="index"
           )
-
+    footer.footer
+      hr
+      ul.footer__links
+        li
+          Link(href="https://github.com/Matoseb/utils" external) github
+        li
+          Link(href="https://www.npmjs.com/package/@matoseb/utils" external) npm
+        li
+          Link(href="https://unpkg.com/@matoseb/utils" external) unpkg
+        li
+          Link(href="https://www.buymeacoffee.com/sebastien.matos" external) donate
 </template>
 <script>
 import MethodComponent from './components/Method.vue'
+import Clipboard from './components/Clipboard.vue'
+import Link from './components/Link.vue'
 
 export default {
   components: {
     Method: MethodComponent,
+    Clipboard,
+    Link,
   },
   metaInfo: {
     title: '@matoseb/utils',
@@ -39,17 +60,19 @@ export default {
     meta: [{ name: 'description', content: 'Javascript utilitaries' }],
   },
   data() {
-    return { librairies: [] }
+    return { librairies: [], loading: true }
   },
   async mounted() {
     let libs = await import(
       'https://unpkg.com/@matoseb/utils@latest/src/index.js'
     )
+
     // console.log(libs)
     libs = Object.entries(libs).map(([name, lib]) => ({ name, lib }))
     libs.sort((a, b) => a.name.localeCompare(b.name))
 
     this.librairies = libs
+    this.loading = false
   },
   methods: {
     toObject(item) {
@@ -76,11 +99,37 @@ export default {
 }
 </script>
 <style lang="scss">
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
 .header {
   padding: $gap-medium;
+  position: sticky;
+  top: 0;
+  background-color: $color-light;
+  z-index: 100;
+  flex: 0 0 auto;
+}
+
+.footer {
+  flex: 0 0 auto;
+  padding: $gap-medium;
+
+  &__links {
+    display: flex;
+    gap: 1em;
+
+    > :last-child {
+      margin-left: auto;
+    }
+  }
 }
 
 .libs {
+  flex: 1 1 auto;
   position: relative;
   padding: $gap-medium;
   width: 100%;

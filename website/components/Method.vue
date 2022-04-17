@@ -1,25 +1,30 @@
 <template lang="pug">
   button.method(
-    v-tooltip="string"
+    v-tooltip="text"
     @click="onClick"
   )
     span {{name}}
 </template>
 <script>
+import Vue from 'vue'
 import stringifyObject from 'stringify-object'
+import Clipboard from './Clipboard.vue'
 
 export default {
+  extends: Clipboard,
   props: {
-    name: {
-      type: String,
-      required: true,
-    },
     method: {
       required: true,
     },
+    text: {
+      required: false,
+    },
+  },
+  beforeCreate() {
+    Vue.delete(this.$options.props, 'text')
   },
   computed: {
-    string() {
+    text() {
       const declaration =
         typeof this.method === 'function' ? '' : `const ${this.name} = `
       return (
@@ -32,33 +37,14 @@ export default {
       )
     },
   },
-  methods: {
-    onClick() {
-      this.$copyText(this.string).then((e) => {
-        this.$awn.success(
-          `<span class="method-name">${this.name}</span> copied to clipboard!`,
-          {
-            durations: { success: 1000 },
-            labels: {
-              success: '',
-            },
-          }
-        )
-      })
-    },
-  },
 }
 </script>
 <style lang="scss">
-.method-name {
-  font-style: italic;
-}
 .method {
   padding: 0.66em;
   color: $color-dark;
   border-radius: 0.33em;
-
-  transition: 0.2s box-shadow;
+  transition: 0.15s box-shadow;
   cursor: pointer;
 
   &:hover {
