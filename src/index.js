@@ -7,5 +7,6 @@ export * as math from './math.js'
 export * as object from './object.js'
 export * as string from './string.js'
 export * as time from './time.js'
+export * as promise from './promise.js'
 
 export { default as MapExtended } from './MapExtended.js'
