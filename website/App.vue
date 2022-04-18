@@ -9,7 +9,11 @@
       span.header__version(v-if="infos.version") {{" v" + infos.version}}
     main.libs
       .libs__loading(v-if="loading")
-        | Loading package from unpkg.com...
+        | Loading package from unpkg.com
+        TextAnimation(
+          :interval="200"
+          :frames="['.', '..', '...']"
+        )
       details.libs__modules(
         v-else
         v-for="(item, index) in librairies"
@@ -44,12 +48,14 @@
 import MethodComponent from './components/Method.vue'
 import Clipboard from './components/Clipboard.vue'
 import Link from './components/Link.vue'
+import TextAnimation from './components/TextAnimation.vue'
 
 export default {
   components: {
     Method: MethodComponent,
     Clipboard,
     Link,
+    TextAnimation,
   },
   metaInfo: {
     title: '@matoseb/utils',
