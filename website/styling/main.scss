@@ -3,12 +3,12 @@
 @import './v-tooltip.scss';
 
 :root {
-  --color-light: white;
-  --color-dark: black;
+  --color-light: 255, 255, 255;
+  --color-dark: 10, 10, 10;
 
   @media (prefers-color-scheme: dark) {
-    --color-light: black;
-    --color-dark: white;
+    --color-light: 10, 10, 10;
+    --color-dark: 255, 255, 255;
   }
 }
 

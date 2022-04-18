@@ -7,9 +7,9 @@ $awn-primary-color: hsl(0, 0%, 50%) !default;
 $awn-primary-background: hsl(0, 0%, 92%) !default;
 $awn-primary-border-color: hsl(0, 0%, 82%) !default;
 
-$awn-success-color: hsl(0, 0%, 100%) !default;
-$awn-success-background: hsl(0, 0%, 0%) !default;
-$awn-success-border-color: hsl(0, 0%, 0%) !default;
+$awn-success-color: $color-light;
+$awn-success-background: $color-dark;
+$awn-success-border-color: $color-dark;
 
 $awn-info-color: hsl(201, 71%, 38%) !default;
 $awn-info-background: hsl(201, 71%, 90%) !default;

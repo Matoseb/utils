@@ -82,7 +82,7 @@
       background: $awn-success-color;
 
       &:hover {
-        background: darken($awn-success-color, 5%);
+        background: $awn-success-color;
       }
     }
 
@@ -90,7 +90,7 @@
       background: $awn-info-color;
 
       &:hover {
-        background: darken($awn-info-color, 5%);
+        background: $awn-info-color;
       }
     }
   }

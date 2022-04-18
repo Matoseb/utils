@@ -1,5 +1,12 @@
-$color-dark: var(--color-dark);
-$color-light: var(--color-light);
+@use 'sass:color';
+@use 'sass:string';
+
+$color-dark: rgba(var(--color-dark), 1);
+$color-light: rgba(var(--color-light), 1);
 
 $gap-medium: 0.66rem;
 $gap-small: 0.33rem;
+
+@function opacity($color, $amount: 1) {
+  @return #{string.slice($color, 0, -4)} #{$amount}#{');'};
+}
