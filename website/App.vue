@@ -6,7 +6,7 @@
           name="@matoseb/utils"
           :text="textString"
         )
-      span.header__version(v-if="infos.version")  v.{{infos.version}}
+      span.header__version(v-if="infos.version") {{" v" + infos.version}}
     main.libs
       .libs__loading(v-if="loading")
         | Loading package from unpkg.com...
