@@ -6,6 +6,9 @@ export default {
     minify: 'esnext',
     polyfillDynamicImport: false,
   },
+  server: {
+    host: true,
+  },
   // optimizeDeps: {
   //   exclude: ["./"],
   // },
