@@ -8,8 +8,8 @@ export function isWhiteSpaceOnly(str) {
 
 export function encapsulate(
   string,
-  substring,
   prefix,
+  substring,
   suffix,
   { caseSensitive } = {}
 ) {
