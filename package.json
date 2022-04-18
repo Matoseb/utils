@@ -1,6 +1,6 @@
 {
   "name": "@matoseb/utils",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Javascript Utilitaries",
   "main": "dist/utils.cjs.js",
   "module": "dist/utils.esm.js",
@@ -40,7 +40,7 @@
   "bugs": {
     "url": "https://github.com/Matoseb/utils/issues"
   },
-  "homepage": "https://github.com/Matoseb/utils#readme",
+  "homepage": "https://utils.matoseb.com/",
   "devDependencies": {
     "@babel/core": "^7.17.5",
     "@babel/plugin-transform-runtime": "^7.17.0",
