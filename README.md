@@ -12,10 +12,18 @@ Javascript utilitaries I'm gathering over the years.
 ```
 npm i @matoseb/utils
 ```
+```js
+import * as MatosebUtils from '@matoseb/utils'
+// or
+import { math, time } from '@matoseb/utils'
+```
 
 ## CDN
 ```html
 <script src="https://unpkg.com/@matoseb/utils"></script>
+```
+```js
+window.MatosebUtils
 ```
 
 ## Todo
