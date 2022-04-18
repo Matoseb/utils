@@ -67,6 +67,12 @@ export function grid(ctx, x, y, w, h, columns = 1, rows = 1) {
   }
 }
 
+export function rotateFrom(ctx, x, y, angle) {
+  ctx.translate(x, y)
+  ctx.rotate(angle)
+  ctx.translate(-x, -y)
+}
+
 // https://stackoverflow.com/questions/7054272/how-to-draw-smooth-curve-through-n-points-using-javascript-html5-canvas
 // origPoints = [[x, y], [x, y], [x, y], ...]
 export function smoothenPath(origPoints, { tension = 0.5, quality = 16 } = {}) {

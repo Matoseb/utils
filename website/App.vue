@@ -6,6 +6,7 @@
           name="@matoseb/utils"
           :text="textString"
         )
+      span.header__version(v-if="infos.version")  v.{{infos.version}}
     main.libs
       .libs__loading(v-if="loading")
         | Loading package from unpkg.com...
@@ -61,21 +62,33 @@ export default {
   },
   data() {
     return {
+      url: 'https://unpkg.com/@matoseb/utils',
       librairies: [],
       loading: true,
-      textString: '<script src="https://unpkg.com/@matoseb/utils"><\/script>', // bug https://githubhot.com/repo/underfin/vite-plugin-vue2/issues/131
+      infos: { version: null },
     }
   },
+  computed: {
+    textString() {
+      const version = this.infos.version ? `@${this.infos.version}` : ''
+      // bug https://githubhot.com/repo/underfin/vite-plugin-vue2/issues/131
+      return `<script src="${this.url}${version}"><\/script>`
+    },
+  },
   async mounted() {
-    let libs = await import(
-      'https://unpkg.com/@matoseb/utils@latest/src/index.js'
+    const infos = await fetch(`${this.url}@latest/package.json`).then((e) =>
+      e.json()
     )
 
-    // console.log(libs)
+    let libs = await import(
+      /* @vite-ignore */ `${this.url}@${infos.version}/src/index.js`
+    )
     libs = Object.entries(libs).map(([name, lib]) => ({ name, lib }))
     libs.sort((a, b) => a.name.localeCompare(b.name))
 
     this.librairies = libs
+    this.infos = infos
+
     this.loading = false
   },
   methods: {

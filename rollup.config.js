@@ -16,14 +16,17 @@ export default {
       format: 'umd',
       file: 'dist/utils.umd.js',
       name: 'MatosebUtils',
+      sourcemap: true,
     },
     {
       format: 'esm',
       file: 'dist/utils.esm.js',
+      sourcemap: true,
     },
     {
       format: 'cjs',
       file: 'dist/utils.cjs.js',
+      sourcemap: true,
     },
   ],
   plugins: [

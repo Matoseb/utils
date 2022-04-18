@@ -29,6 +29,11 @@ body {
 summary {
   all: revert;
   cursor: pointer;
+
+  &:focus {
+    outline: none;
+    text-decoration: underline;
+  }
 }
 
 h1,

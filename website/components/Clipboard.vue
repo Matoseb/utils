@@ -1,8 +1,8 @@
 <template lang="pug">
-  .clipboard(
+  span.clipboard(
     @click="onClick"
-  )
-    span {{name}}
+    v-tooltip="text"
+  ) {{name}}
 </template>
 <script>
 // import stringifyObject from 'stringify-object'

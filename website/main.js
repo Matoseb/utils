@@ -19,6 +19,7 @@ Vue.use(VueMeta, {
 import VTooltip from 'v-tooltip'
 Vue.use(VTooltip, {
   defaultPlacement: 'top',
+  defaultHtml: false,
 })
 
 new Vue({
