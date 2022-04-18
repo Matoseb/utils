@@ -36,7 +36,7 @@ export default {
 </script>
 <style lang="scss">
 .clipboard-name {
-  font-style: italic;
+  font-weight: bold;
 }
 .clipboard {
   text-decoration: underline;
