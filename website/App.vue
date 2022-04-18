@@ -76,9 +76,7 @@ export default {
     },
   },
   async mounted() {
-    const infos = await fetch(`${this.url}@latest/package.json`).then((e) =>
-      e.json()
-    )
+    const infos = await fetch(`${this.url}/package.json`).then((e) => e.json())
 
     let libs = await import(
       /* @vite-ignore */ `${this.url}@${infos.version}/src/index.js`
