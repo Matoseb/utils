@@ -4,7 +4,7 @@
       h1
         Clipboard(
           name="@matoseb/utils"
-          text='<script src="https://unpkg.com/@matoseb/utils"></script>'
+          :text="textString"
         )
     main.libs
       .libs__loading(v-if="loading")
@@ -60,7 +60,11 @@ export default {
     meta: [{ name: 'description', content: 'Javascript utilitaries' }],
   },
   data() {
-    return { librairies: [], loading: true }
+    return {
+      librairies: [],
+      loading: true,
+      textString: '<script src="https://unpkg.com/@matoseb/utils"><\/script>', // bug https://githubhot.com/repo/underfin/vite-plugin-vue2/issues/131
+    }
   },
   async mounted() {
     let libs = await import(

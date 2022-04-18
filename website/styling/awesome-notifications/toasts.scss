@@ -84,7 +84,7 @@
   }
 
   &-wrapper {
-    padding: $awn-progress-bar-height + $awn-toast-padding 88px
+    padding: $awn-progress-bar-height + $awn-toast-padding $awn-toast-padding
       $awn-toast-padding $awn-toast-padding;
 
     border: $awn-border;
