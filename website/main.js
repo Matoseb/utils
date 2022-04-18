@@ -1,4 +1,3 @@
-import 'the-new-css-reset/css/reset.css'
 import './styling/main.scss'
 
 import Vue from 'vue'

@@ -122,8 +122,10 @@ export default {
 <style lang="scss">
 #app {
   display: flex;
+  position: relative;
   flex-direction: column;
-  height: 100%;
+  width: 100%;
+  min-height: 100%;
 }
 
 .header {
