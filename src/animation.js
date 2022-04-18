@@ -1,7 +1,7 @@
 import { lerp, smoothDamp } from './math'
 import { Clock } from './time'
 
-class Smoother {
+export class Smoother {
   constructor(options) {
     this.settings = {
       value: 0,
