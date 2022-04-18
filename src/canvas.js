@@ -1,15 +1,18 @@
-export function screenToWorld(x, y, options) {
-  options = {
-    pixelDensity: window.devicePixelRatio,
-    ctx: undefined,
-    matrix: undefined,
-    ...options,
-  }
+import { map } from './math.js'
 
-  const imatrix = (options.matrix || options.ctx.getTransform()).invertSelf()
+export function screenToWorld(
+  ctxOrMatrix,
+  x,
+  y,
+  { pixelDensity = devicePixelRatio } = {}
+) {
+  if (ctxOrMatrix instanceof CanvasRenderingContext2D)
+    ctxOrMatrix = ctxOrMatrix.getTransform()
 
-  x *= options.pixelDensity
-  y *= options.pixelDensity
+  const imatrix = ctxOrMatrix.invertSelf()
+
+  x *= pixelDensity
+  y *= pixelDensity
 
   return {
     x: x * imatrix.a + y * imatrix.c + imatrix.e,
@@ -17,11 +20,11 @@ export function screenToWorld(x, y, options) {
   }
 }
 
-export function skew(x, y, { ctx }) {
+export function skew(ctx, x, y) {
   return ctx.transform(1, Math.tan(y), Math.tan(x), 1, 0, 0)
 }
 
-export function toCanvas(
+export function crop(
   source,
   x1 = 0,
   y1 = 0,
@@ -30,15 +33,38 @@ export function toCanvas(
 ) {
   const canvas = document.createElement('canvas')
   const ctx = canvas.getContext('2d')
+  const x = Math.min(x1, x2)
+  const y = Math.min(y1, y2)
   const width = Math.abs(x2 - x1)
   const height = Math.abs(y2 - y1)
 
   canvas.width = width
   canvas.height = height
 
-  ctx.drawImage(source, x1, y1, width, height, 0, 0, width, height)
+  ctx.drawImage(source, x, y, width, height, 0, 0, width, height)
 
   return canvas
+}
+
+export function grid(ctx, x, y, w, h, columns = 1, rows = 1) {
+  let x1 = x,
+    y1 = y,
+    x2 = x + w,
+    y2 = y + h
+
+  ctx.beginPath()
+
+  for (let row = 0; row <= rows; row++) {
+    const y = map(row, 0, rows, y1, y2)
+    ctx.moveTo(x1, y)
+    ctx.lineTo(x2, y)
+  }
+
+  for (let column = 0; column <= columns; column++) {
+    const x = map(column, 0, columns, x1, x2)
+    ctx.moveTo(x, y1)
+    ctx.lineTo(x, y2)
+  }
 }
 
 // https://stackoverflow.com/questions/7054272/how-to-draw-smooth-curve-through-n-points-using-javascript-html5-canvas

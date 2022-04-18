@@ -3,5 +3,5 @@ export function capitalize(string) {
 }
 
 export function isWhiteSpaceOnly(str) {
-  return str.trim().length === 0;
+  return str.trim().length === 0
 }
