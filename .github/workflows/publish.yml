@@ -27,4 +27,4 @@ jobs:
         uses: martinbeentjes/npm-get-version-action@master
       - uses: bdougie/variables-in-markdown@master
         env:
-          GITHUB_TOKEN: ${{ steps.package-version.outputs.current-version }}
+          GITHUB_TOKEN: ${{ 0 }}
