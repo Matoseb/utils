@@ -1,6 +1,6 @@
 {
   "name": "@matoseb/utils",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Javascript Utilitaries",
   "main": "dist/utils.cjs.js",
   "module": "dist/utils.esm.js",
@@ -31,9 +31,6 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Matoseb/utils.git"
-  },
-  "engines": {
-    "node": ">=16"
   },
   "author": "Sébastien Matos <matos.sebastien@gmail.com>",
   "license": "ISC",
