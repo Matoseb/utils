@@ -1,5 +1,5 @@
 <template lang="pug">
-a(
+a.link(
   v-bind="attr"
 )
   slot
@@ -30,8 +30,9 @@ export default {
 }
 </script>
 <style lang="scss">
-a {
-  cursor: pointer;
+.link {
+  @include button;
+
   text-decoration: underline;
 }
 </style>

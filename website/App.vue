@@ -163,7 +163,7 @@ export default {
 
     this.loading = false
 
-    if(platform.mouse) this.focusSearch()
+    if (platform.mouse) this.focusSearch()
   },
   methods: {
     focusSearch() {
@@ -212,7 +212,6 @@ function isWhiteSpaceOnly(str) {
 }
 
 .header {
-  padding: $gap-medium;
   position: sticky;
   top: 0;
   background-color: $color-light;
@@ -223,25 +222,30 @@ function isWhiteSpaceOnly(str) {
   width: 100%;
   flex-wrap: wrap;
 
+  > * {
+    padding: $gap-medium;
+  }
+
   &__search {
     position: relative;
     font-weight: bold;
-    border-bottom: 1px solid $color-dark;
+    // border-bottom: 1px solid $color-dark;
 
     &::placeholder {
       font-weight: normal;
     }
 
+    @include button;
+
     &:focus {
-      color: $color-light;
-      background-color: $color-dark;
+      @include button--active;
+      @include shadow;
     }
   }
 }
 
 .footer {
   flex: 0 0 auto;
-  padding: $gap-medium;
 
   &__links {
     display: flex;

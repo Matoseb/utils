@@ -39,7 +39,8 @@ export default {
   font-weight: bold;
 }
 .clipboard {
+  @include button;
+
   text-decoration: underline;
-  cursor: pointer;
 }
 </style>

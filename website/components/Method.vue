@@ -41,20 +41,6 @@ export default {
 </script>
 <style lang="scss">
 .method {
-  padding: 0.66em;
-  color: $color-dark;
-  border-radius: 0.33em;
-  // font-weight: bold;
-  transition: 0.15s box-shadow;
-  cursor: pointer;
-
-  &:hover {
-    @include shadow;
-
-    &:active {
-      background: $color-dark;
-      color: $color-light;
-    }
-  }
+  @include button;
 }
 </style>
