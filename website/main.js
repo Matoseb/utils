@@ -21,6 +21,10 @@ Vue.use(VTooltip, {
   defaultHtml: false,
 })
 
+import VueShortKey from 'vue-shortkey'
+
+Vue.use(VueShortKey)
+
 new Vue({
   render: (h) => h(App),
 }).$mount('#app')

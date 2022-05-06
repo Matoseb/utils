@@ -6,32 +6,44 @@
           name="@matoseb/utils"
           :text="textString"
         )
-      span.header__version(v-if="infos.version") {{" v" + infos.version}}
+      span.header__version(v-if="infos.version") {{"v" + infos.version}}
+      input.header__search(
+        v-shortkey="['meta', 'f']" @shortkey="focusSearch"
+        type="search"
+        ref="search"
+        v-model="searchString"
+        placeholder="Search cmd+f"
+      )
     main.libs
-      .libs__loading(v-if="loading")
+      .libs__loading(
+        v-if="loading"
+      )
         | Loading package from unpkg.com
         TextAnimation(
           :interval="200"
           :frames="['.', '..', '...']"
         )
-      details.libs__modules(
+      template(
         v-else
         v-for="(item, index) in librairies"
-        open
       )
-        summary.libs__modules__summary
-          h2 {{item.name}}
-          //- Method(
-          //-   :name="item.name"
-          //-   v-bind="toObject(item)"
-          //- )
-        .libs__modules__items
-          Method.libs__modules__items-item(
-            v-for="([name, method], index) in getMethod(item)"
-            :name="name"
-            :method="method"
-            :key="index"
-          )
+        details.libs__modules(
+          open
+          v-if="item.methods.length > 0"
+        )
+          summary.libs__modules__summary
+            h2 {{item.name}}
+            //- Method(
+            //-   :name="item.name"
+            //-   v-bind="toObject(item)"
+            //- )
+          .libs__modules__items
+            Method.libs__modules__items-item(
+              v-for="([name, method], index) in item.methods"
+              :name="name"
+              :method="method"
+              :key="index"
+            )
     footer.footer
       hr
       ul.footer__links
@@ -49,6 +61,9 @@ import MethodComponent from './components/Method.vue'
 import Clipboard from './components/Clipboard.vue'
 import Link from './components/Link.vue'
 import TextAnimation from './components/TextAnimation.vue'
+import FuzzySearch from 'fuzzy-search'
+import { isModule } from './utils'
+import stringifyObject from 'stringify-object'
 
 export default {
   components: {
@@ -69,12 +84,54 @@ export default {
   data() {
     return {
       url: 'https://unpkg.com/@matoseb/utils',
-      librairies: [],
+      allLibrairies: [],
       loading: true,
       infos: { version: null },
+      searchString: '',
     }
   },
   computed: {
+    flattenedLibrairies() {
+      const flattened = []
+      this.allLibrairies.forEach((module) => {
+        const { name: category } = module
+
+        const libs = isModule(module.lib)
+          ? module.lib
+          : { [category]: module.lib }
+
+        const result = Object.entries(libs).map(([name, method]) => {
+          method = stringifyObject(method, {
+            transform: (obj, prop, originalResult) => originalResult,
+          })
+          return { name, method, category }
+        })
+
+        flattened.push(...result)
+      })
+      return flattened
+    },
+    librairies() {
+      return this.allLibrairies.map((item) => ({
+        name: item.name,
+        methods: this.getMethod(item),
+      }))
+    },
+
+    filtered() {
+      if (isWhiteSpaceOnly(this.searchString)) return this.flattenedLibrairies
+
+      const searcher = new FuzzySearch(
+        this.flattenedLibrairies,
+        ['name', 'category'],
+        {
+          caseSensitive: false,
+          sort: true,
+        }
+      )
+      return searcher.search(this.searchString)
+    },
+
     textString() {
       const version = this.infos.version ? `@${this.infos.version}` : ''
       // bug https://githubhot.com/repo/underfin/vite-plugin-vue2/issues/131
@@ -90,33 +147,48 @@ export default {
     libs = Object.entries(libs).map(([name, lib]) => ({ name, lib }))
     libs.sort((a, b) => a.name.localeCompare(b.name))
 
-    this.librairies = libs
+    this.allLibrairies = libs
     this.infos = infos
 
     this.loading = false
+
+    this.focusSearch()
   },
   methods: {
+    focusSearch() {
+      const elem = this.$refs.search
+      elem.focus()
+      elem.select()
+    },
     toObject(item) {
       const lib = this.getMethod(item)
       return { name: item.name, method: Object.fromEntries(lib) }
     },
+    inFiltered({ name, category }) {
+      return (
+        this.filtered.find(
+          (item) => item.name === name && item.category === category
+        ) !== undefined
+      )
+    },
     getMethod(item) {
-      const { lib, name } = item
+      const { lib, name: category } = item
       const methods = []
 
-      if (lib[Symbol.toStringTag] === 'Module') {
-        methods.push(
-          ...Object.entries(lib).map(([name, method]) => {
-            return [name, method]
-          })
-        )
-      } else {
-        methods.push([name, lib])
-      }
+      const libs = isModule(lib) ? lib : { [category]: lib }
+
+      Object.entries(libs).forEach(([name, method]) => {
+        const match = this.inFiltered({ name, category })
+        if (match) methods.push([name, method])
+      })
 
       return methods
     },
   },
+}
+
+function isWhiteSpaceOnly(str) {
+  return str.trim().length === 0
 }
 </script>
 <style lang="scss">
@@ -132,9 +204,27 @@ export default {
   padding: $gap-medium;
   position: sticky;
   top: 0;
+  gap: 1ch;
   background-color: $color-light;
   z-index: 100;
   flex: 0 0 auto;
+  display: flex;
+
+  &__search {
+    position: relative;
+    font-weight: bold;
+    margin-left: auto;
+    border-bottom: 1px solid $color-dark;
+
+    &::placeholder {
+      font-weight: normal;
+    }
+
+    &:focus {
+      color: $color-light;
+      background-color: $color-dark;
+    }
+  }
 }
 
 .footer {
