@@ -237,10 +237,6 @@ function isWhiteSpaceOnly(str) {
 
     @include button;
 
-    &:focus {
-      @include button--active;
-      @include shadow;
-    }
   }
 }
 
