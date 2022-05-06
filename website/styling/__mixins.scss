@@ -11,6 +11,7 @@
 
 
 @mixin button {
+  display: block;
   padding: $gap-medium;
   color: $color-dark;
   // font-weight: bold;
