@@ -1,12 +1,13 @@
 <template lang="pug">
   #app
     header.header
-      h1
-        Clipboard(
-          name="@matoseb/utils"
-          :text="textString"
-        )
-      span.header__version(v-if="infos.version") {{"v" + infos.version}}
+      div
+        h1
+          Clipboard(
+            name="@matoseb/utils"
+            :text="textString"
+          )
+        span.header__version(v-if="infos.version") {{"v" + infos.version}}
       input.header__search(
         v-shortkey="['meta', 'f']" @shortkey="focusSearch"
         type="search"
@@ -93,7 +94,13 @@ export default {
   },
   computed: {
     searchPlaceholder() {
-      return `Search ${platform.macos ? 'cmd+f' : 'ctrl+f'}`
+      const shortcut = platform.mouse
+        ? platform.macos
+          ? 'cmd+f'
+          : 'ctrl+f'
+        : ''
+
+      return `Search ${shortcut}`
     },
     flattenedLibrairies() {
       const flattened = []
@@ -156,7 +163,7 @@ export default {
 
     this.loading = false
 
-    this.focusSearch()
+    if(platform.mouse) this.focusSearch()
   },
   methods: {
     focusSearch() {
@@ -210,14 +217,16 @@ function isWhiteSpaceOnly(str) {
   top: 0;
   gap: 1ch;
   background-color: $color-light;
+  justify-content: space-between;
   z-index: 100;
   flex: 0 0 auto;
   display: flex;
+  width: 100%;
+  flex-wrap: wrap;
 
   &__search {
     position: relative;
     font-weight: bold;
-    margin-left: auto;
     border-bottom: 1px solid $color-dark;
 
     &::placeholder {
