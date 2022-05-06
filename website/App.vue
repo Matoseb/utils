@@ -7,7 +7,7 @@
             name="@matoseb/utils"
             :text="textString"
           )
-        span.header__version(v-if="infos.version") {{"v" + infos.version}}
+        span.header__version(v-if="infos.version") {{" v" + infos.version}}
       input.header__search(
         v-shortkey="['meta', 'f']" @shortkey="focusSearch"
         type="search"
@@ -215,7 +215,6 @@ function isWhiteSpaceOnly(str) {
   padding: $gap-medium;
   position: sticky;
   top: 0;
-  gap: 1ch;
   background-color: $color-light;
   justify-content: space-between;
   z-index: 100;
