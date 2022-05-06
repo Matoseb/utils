@@ -1,7 +1,7 @@
 <template lang="pug">
   #app
     header.header
-      div
+      .header__title
         h1
           Clipboard(
             name="@matoseb/utils"
@@ -222,8 +222,22 @@ function isWhiteSpaceOnly(str) {
   width: 100%;
   flex-wrap: wrap;
 
-  > * {
-    padding: $gap-medium;
+  &__title {
+    flex-wrap: nowrap;
+    display: flex;
+
+    > h1 {
+      display: flex;
+    }
+
+    > span {
+      padding: $gap-medium;
+      padding-left: 0;
+    }
+  }
+
+  &__version {
+    display: flex;
   }
 
   &__search {
@@ -236,7 +250,6 @@ function isWhiteSpaceOnly(str) {
     }
 
     @include button;
-
   }
 }
 
