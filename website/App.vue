@@ -245,7 +245,6 @@ function isWhiteSpaceOnly(str) {
 
   &__links {
     display: flex;
-    gap: 1em;
 
     > :last-child {
       margin-left: auto;
