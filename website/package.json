@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "fuzzy-search": "^3.2.1",
+    "platform-detect": "^3.0.1",
     "stringify-object": "^4.0.1",
     "the-new-css-reset": "^1.5.1",
     "v-tooltip": "^2.1.3",

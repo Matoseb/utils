@@ -12,7 +12,7 @@
         type="search"
         ref="search"
         v-model="searchString"
-        placeholder="Search cmd+f"
+        :placeholder="searchPlaceholder"
       )
     main.libs
       .libs__loading(
@@ -58,6 +58,7 @@
 </template>
 <script>
 import MethodComponent from './components/Method.vue'
+import platform from 'platform-detect'
 import Clipboard from './components/Clipboard.vue'
 import Link from './components/Link.vue'
 import TextAnimation from './components/TextAnimation.vue'
@@ -91,6 +92,9 @@ export default {
     }
   },
   computed: {
+    searchPlaceholder() {
+      return `Search ${platform.macos ? 'cmd+f' : 'ctrl+f'}`
+    },
     flattenedLibrairies() {
       const flattened = []
       this.allLibrairies.forEach((module) => {
