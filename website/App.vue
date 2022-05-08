@@ -99,8 +99,8 @@ export default {
     searchPlaceholder() {
       const shortcut = platform.mouse
         ? platform.macos
-          ? 'cmd+f'
-          : 'ctrl+f'
+          ? '⌘F'
+          : 'Ctrl F'
         : ''
 
       return `Search ${shortcut}`
