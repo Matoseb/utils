@@ -7,7 +7,11 @@
   box-shadow: 0px 0px 10px 0 opacity($color-dark, 0.33);
 }
 
-
+@mixin dontTouch {
+  pointer-events: none;
+  user-select: none;
+  text-decoration: none;
+}
 
 
 @mixin button {

@@ -34,5 +34,9 @@ export default {
   @include button;
 
   text-decoration: underline;
+
+  &[disabled] {
+    @include dontTouch;
+  }
 }
 </style>
