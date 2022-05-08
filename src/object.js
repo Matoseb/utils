@@ -26,3 +26,15 @@ export function* Enum(a, b = []) {
     yield v
   }
 }
+
+export function monkeyPatcher(element, property, { getter, setter }) {
+  const original = Object.getOwnPropertyDescriptor(element, property)
+  Object.defineProperty(element, property, {
+    get() {
+      return getter(original.get.bind(this))
+    },
+    set(...values) {
+      setter(original.set.bind(this), ...values)
+    },
+  })
+}

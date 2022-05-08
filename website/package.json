@@ -16,7 +16,9 @@
     "vite-plugin-vue2": "^1.9.3"
   },
   "dependencies": {
+    "file-saver": "^2.0.5",
     "fuzzy-search": "^3.2.1",
+    "jszip": "^3.9.1",
     "platform-detect": "^3.0.1",
     "stringify-object": "^4.0.1",
     "the-new-css-reset": "^1.5.1",

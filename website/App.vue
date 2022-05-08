@@ -53,7 +53,7 @@
         li
           Link(href="https://www.npmjs.com/package/@matoseb/utils" external) npm
         li
-          Link(href="https://unpkg.com/@matoseb/utils" external) unpkg
+          Link(@click.native="onDownloadBtn" :disabled="!textLib") download
         li
           Link(href="https://www.buymeacoffee.com/sebastien.matos" external) donate
 </template>
@@ -65,6 +65,8 @@ import Link from './components/Link.vue'
 import TextAnimation from './components/TextAnimation.vue'
 import FuzzySearch from 'fuzzy-search'
 import { isModule } from './utils'
+import JSZip from 'jszip'
+import { saveAs } from 'file-saver'
 import stringifyObject from 'stringify-object'
 
 export default {
@@ -88,8 +90,9 @@ export default {
       url: 'https://unpkg.com/@matoseb/utils',
       allLibrairies: [],
       loading: true,
-      infos: { version: null },
+      infos: { version: null, fileName: 'matoseb-utils' },
       searchString: '',
+      textLib: null,
     }
   },
   computed: {
@@ -151,15 +154,22 @@ export default {
   },
   async mounted() {
     const infos = await fetch(`${this.url}/package.json`).then((e) => e.json())
+    // console.log(`${this.url}@${infos.version}`)
+    fetch(`${this.url}@${infos.version}`)
+      .then((e) => e.text())
+      .then((txt) => {
+        this.textLib = txt
+      })
 
     let libs = await import(
       /* @vite-ignore */ `${this.url}@${infos.version}/src/index.js`
     )
+
     libs = Object.entries(libs).map(([name, lib]) => ({ name, lib }))
     libs.sort((a, b) => a.name.localeCompare(b.name))
 
     this.allLibrairies = libs
-    this.infos = infos
+    this.infos = Object.assign({}, this.infos, infos)
 
     this.loading = false
 
@@ -194,6 +204,16 @@ export default {
       })
 
       return methods
+    },
+    onDownloadBtn(event) {
+      event.preventDefault()
+      const { fileName, version } = this.infos
+      const name = `${fileName}-v${version}`
+      const zip = new JSZip()
+      zip.file(`${name}.js`, this.textLib)
+      zip.generateAsync({ type: 'blob' }).then((blob) => {
+        saveAs(blob, `${name}.zip`) // 2) trigger the download
+      }, console.error)
     },
   },
 }
