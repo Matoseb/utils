@@ -73,7 +73,7 @@ export class SmoothDamper extends Smoother {
     this.clock = new Clock()
   }
 
-  update(deltaTime = this.clock.delta(), target) {
+  update(target, deltaTime = this.clock.delta()) {
     super.setTarget(target)
     const { smoothness, maxSpeed } = this.settings
     const results = smoothDamp(
