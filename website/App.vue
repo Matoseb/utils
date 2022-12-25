@@ -1,61 +1,61 @@
 <template lang="pug">
-  #app
-    header.header
-      .header__title
-        h1
-          Clipboard(
-            name="@matoseb/utils"
-            :text="textString"
+#app
+  header.header
+    .header__title
+      h1
+        Clipboard(
+          name="@matoseb/utils"
+          :text="textString"
+        )
+      span.header__version(v-if="infos.version") {{" v" + infos.version}}
+    input.header__search(
+      v-shortkey="['meta', 'f']" @shortkey="focusSearch"
+      type="search"
+      ref="search"
+      v-model="searchString"
+      :placeholder="searchPlaceholder"
+    )
+  main.libs
+    .libs__loading(
+      v-if="loading"
+    )
+      | Loading package from unpkg.com
+      TextAnimation(
+        :interval="200"
+        :frames="['.', '..', '...']"
+      )
+    template(
+      v-else
+      v-for="(item, index) in librairies"
+    )
+      details.libs__modules(
+        open
+        v-if="item.methods.length > 0"
+      )
+        summary.libs__modules__summary
+          h2 {{item.name}}
+          //- Method(
+          //-   :name="item.name"
+          //-   v-bind="toObject(item)"
+          //- )
+        .libs__modules__items
+          Method.libs__modules__items-item(
+            v-for="([name, method], index) in item.methods"
+            :name="name"
+            :method="method"
+            :key="index"
           )
-        span.header__version(v-if="infos.version") {{" v" + infos.version}}
-      input.header__search(
-        v-shortkey="['meta', 'f']" @shortkey="focusSearch"
-        type="search"
-        ref="search"
-        v-model="searchString"
-        :placeholder="searchPlaceholder"
-      )
-    main.libs
-      .libs__loading(
-        v-if="loading"
-      )
-        | Loading package from unpkg.com
-        TextAnimation(
-          :interval="200"
-          :frames="['.', '..', '...']"
-        )
-      template(
-        v-else
-        v-for="(item, index) in librairies"
-      )
-        details.libs__modules(
-          open
-          v-if="item.methods.length > 0"
-        )
-          summary.libs__modules__summary
-            h2 {{item.name}}
-            //- Method(
-            //-   :name="item.name"
-            //-   v-bind="toObject(item)"
-            //- )
-          .libs__modules__items
-            Method.libs__modules__items-item(
-              v-for="([name, method], index) in item.methods"
-              :name="name"
-              :method="method"
-              :key="index"
-            )
-    footer.footer
-      hr
-      ul.footer__links
-        li
-          Link(href="https://github.com/Matoseb/utils" external) github
-        li
-          Link(href="https://www.npmjs.com/package/@matoseb/utils" external) npm
-        li
-          Link(@click.native="onDownloadBtn" :disabled="!textLib") download
-        li
-          Link(href="https://www.buymeacoffee.com/sebastien.matos" external) donate
+  footer.footer
+    hr
+    ul.footer__links
+      li
+        Link(href="https://github.com/Matoseb/utils" external) github
+      li
+        Link(href="https://www.npmjs.com/package/@matoseb/utils" external) npm
+      li
+        Link(@click.native="onDownloadBtn" :disabled="!textLib") download
+      li
+        Link(href="https://www.buymeacoffee.com/sebastien.matos" external) donate
 </template>
 <script>
 import MethodComponent from './components/Method.vue'
@@ -68,6 +68,8 @@ import { isModule } from './utils'
 import JSZip from 'jszip'
 import { saveAs } from 'file-saver'
 import stringifyObject from 'stringify-object'
+import * as MatosebUtils from '@matoseb/utils/src'
+import infos from '@matoseb/utils/package.json'
 
 export default {
   components: {
@@ -97,11 +99,7 @@ export default {
   },
   computed: {
     searchPlaceholder() {
-      const shortcut = platform.mouse
-        ? platform.macos
-          ? '⌘F'
-          : 'Ctrl F'
-        : ''
+      const shortcut = platform.mouse ? (platform.macos ? '⌘F' : 'Ctrl F') : ''
 
       return `Search ${shortcut}`
     },
@@ -153,7 +151,7 @@ export default {
     },
   },
   async mounted() {
-    const infos = await fetch(`${this.url}/package.json`).then((e) => e.json())
+    // const infos = await fetch(`${this.url}/package.json`).then((e) => e.json())
     // console.log(`${this.url}@${infos.version}`)
     fetch(`${this.url}@${infos.version}`)
       .then((e) => e.text())
@@ -161,14 +159,21 @@ export default {
         this.textLib = txt
       })
 
-    let libs = await import(
-      /* @vite-ignore */ `${this.url}@${infos.version}/src/index.js`
-    )
+    // let libs = await import(
+    //   /* @vite-ignore */ `${this.url}@${infos.version}/src/index.js`
+    // )
 
-    libs = Object.entries(libs).map(([name, lib]) => ({ name, lib }))
+    const libs = Object.entries(MatosebUtils).map(([name, lib]) => ({
+      name,
+      lib,
+    }))
+
     libs.sort((a, b) => a.name.localeCompare(b.name))
 
     this.allLibrairies = libs
+
+    // console.log(MatosebUtils)
+
     this.infos = Object.assign({}, this.infos, infos)
 
     this.loading = false

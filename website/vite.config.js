@@ -1,5 +1,6 @@
 // vite.config.js
 import { createVuePlugin } from 'vite-plugin-vue2'
+import importToCDN from 'vite-plugin-cdn-import'
 
 export default {
   build: {
@@ -22,5 +23,16 @@ export default {
       },
     },
   },
-  plugins: [createVuePlugin(/* options */)],
+  plugins: [
+    // importToCDN({
+    //   modules: [
+    //     {
+    //       name: '@matoseb/utils',
+    //       var: 'utils',
+    //       path: '../',
+    //     },
+    //   ],
+    // }),
+    createVuePlugin(/* options */),
+  ],
 }
