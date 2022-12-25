@@ -60,16 +60,16 @@ export function smoothDamp(
   current,
   target,
   velocity,
-  smoothness = 1,
+  smoothTime = 100,
   maxSpeed = Infinity,
   deltaTime = 0
 ) {
-  let num = 2 / (smoothness || 0.00001)
+  let num = 2 / (smoothTime || 0.00001)
   let num2 = num * deltaTime
   let num3 = 1 / (1 + num2 + 0.48 * num2 * num2 + 0.235 * num2 * num2 * num2)
   let num4 = current - target
   let num5 = target
-  let num6 = maxSpeed * smoothness
+  let num6 = maxSpeed * smoothTime
   num4 = clamp(num4, -num6, num6)
   target = current - num4
   let num7 = (velocity + num * num4) * deltaTime

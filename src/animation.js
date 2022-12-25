@@ -66,7 +66,7 @@ export class Lerper extends Smoother {
 export class SmoothDamper extends Smoother {
   constructor(options) {
     super({
-      smoothness: 1,
+      smoothTime: 1,
       maxSpeed: Infinity,
       ...options,
     })
@@ -75,12 +75,12 @@ export class SmoothDamper extends Smoother {
 
   update(target, deltaTime = this.clock.delta()) {
     super.setTarget(target)
-    const { smoothness, maxSpeed } = this.settings
+    const { smoothTime, maxSpeed } = this.settings
     const results = smoothDamp(
       this.value,
       this.target,
       this.velocity,
-      smoothness,
+      smoothTime,
       maxSpeed,
       deltaTime
     )
