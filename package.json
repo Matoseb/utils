@@ -1,6 +1,6 @@
 {
   "name": "@matoseb/utils",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Javascript Utilitaries",
   "main": "dist/utils.cjs.js",
   "module": "dist/utils.esm.js",
