@@ -1,10 +1,10 @@
 // vite.config.js
 import { createVuePlugin } from 'vite-plugin-vue2'
-import importToCDN from 'vite-plugin-cdn-import'
 
 export default {
   build: {
     minify: 'esnext',
+    target: 'esnext',
     polyfillDynamicImport: false,
   },
   server: {
@@ -23,16 +23,5 @@ export default {
       },
     },
   },
-  plugins: [
-    // importToCDN({
-    //   modules: [
-    //     {
-    //       name: '@matoseb/utils',
-    //       var: 'utils',
-    //       path: '../',
-    //     },
-    //   ],
-    // }),
-    createVuePlugin(/* options */),
-  ],
+  plugins: [createVuePlugin(/* options */)],
 }
