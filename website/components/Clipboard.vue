@@ -1,8 +1,8 @@
 <template lang="pug">
-  span.clipboard(
-    @click="onClick"
-    v-tooltip="text"
-  ) {{name}}
+span.clipboard(
+  @click="copy()"
+  v-tooltip="text"
+) {{name}}
 </template>
 <script>
 // import stringifyObject from 'stringify-object'
@@ -18,8 +18,8 @@ export default {
     },
   },
   methods: {
-    onClick() {
-      this.$copyText(this.text).then((e) => {
+    copy(txt = this.text) {
+      this.$copyText(txt).then((e) => {
         this.$awn.success(
           `<span class="clipboard-name">${this.name}</span> copied to clipboard!`,
           {

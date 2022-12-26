@@ -8,13 +8,19 @@
           :text="textString"
         )
       span.header__version(v-if="infos.version") {{" v" + infos.version}}
-    input.header__search(
-      v-shortkey="['meta', 'f']" @shortkey="focusSearch"
-      type="search"
-      ref="search"
-      v-model="searchString"
-      :placeholder="searchPlaceholder"
-    )
+    .header__right
+      label.header__checkbox(
+        :class="{ '--active': copyDeps }"
+      )
+        input(type="checkbox" v-model="copyDeps")
+        | With dependencies
+      input.header__search(
+        v-shortkey="['meta', 'f']" @shortkey="focusSearch"
+        type="search"
+        ref="search"
+        v-model="searchString"
+        :placeholder="searchPlaceholder"
+      )
   main.libs
     .libs__loading(
       v-if="loading"
@@ -43,6 +49,7 @@
             v-for="([name, method], index) in item.methods"
             :name="name"
             :method="method"
+            :depedencies="getDepedencies(name, method, flattenedLibrairies)"
             :key="index"
           )
   footer.footer
@@ -92,10 +99,19 @@ export default {
       url: 'https://unpkg.com/@matoseb/utils',
       allLibrairies: [],
       loading: true,
+      copyDeps: true,
       infos: { version: null, fileName: 'matoseb-utils' },
       searchString: '',
       textLib: null,
     }
+  },
+  watch: {
+    copyDeps: {
+      handler(value) {
+        document.body.classList.toggle('--highlight-deps', value)
+      },
+      immediate: true,
+    },
   },
   computed: {
     searchPlaceholder() {
@@ -181,6 +197,33 @@ export default {
     if (platform.mouse) this.focusSearch()
   },
   methods: {
+    getDepedencies(name, method, depedencies, maxNesting = 5) {
+      const matchedDep = new Set()
+
+      if (maxNesting > 0) {
+        depedencies.forEach((d) => {
+          if (d.name === name) return
+
+          const re = new RegExp(`(?<!\\.)${d.name}(?!\\w)`) // not preceeded by dot and not followed by letters
+
+          if (!re.test(method)) return
+
+          matchedDep.add(d)
+        })
+
+        matchedDep.forEach((d) => {
+          const ddeps = this.getDepedencies(
+            d.name,
+            d.method,
+            depedencies,
+            maxNesting - 1
+          )
+          ddeps.forEach((dd) => matchedDep.add(dd))
+        })
+      }
+
+      return Array.from(matchedDep)
+    },
     focusSearch() {
       const elem = this.$refs.search
       elem.focus()
@@ -261,6 +304,10 @@ function isWhiteSpaceOnly(str) {
     }
   }
 
+  &__right {
+    display: flex;
+  }
+
   &__version {
     display: flex;
   }
@@ -274,6 +321,10 @@ function isWhiteSpaceOnly(str) {
       font-weight: normal;
     }
 
+    @include button;
+  }
+
+  &__checkbox {
     @include button;
   }
 }

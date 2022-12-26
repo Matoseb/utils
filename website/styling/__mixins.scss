@@ -13,7 +13,6 @@
   text-decoration: none;
 }
 
-
 @mixin button {
   display: block;
   padding: $gap-medium;
@@ -36,5 +35,9 @@
     @include inverse;
     @include shadow;
   }
-}
 
+  &.--active {
+    @include inverse;
+    @include shadow;
+  }
+}
