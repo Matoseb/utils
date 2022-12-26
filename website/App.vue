@@ -99,7 +99,7 @@ export default {
       url: 'https://unpkg.com/@matoseb/utils',
       allLibrairies: [],
       loading: true,
-      copyDeps: true,
+      copyDeps: localStorage.getItem('copyDeps'),
       infos: { version: null, fileName: 'matoseb-utils' },
       searchString: '',
       textLib: null,
@@ -109,6 +109,7 @@ export default {
     copyDeps: {
       handler(value) {
         document.body.classList.toggle('--highlight-deps', value)
+        localStorage.setItem('copyDeps', value)
       },
       immediate: true,
     },
