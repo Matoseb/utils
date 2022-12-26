@@ -71,7 +71,7 @@ import Clipboard from './components/Clipboard.vue'
 import Link from './components/Link.vue'
 import TextAnimation from './components/TextAnimation.vue'
 import FuzzySearch from 'fuzzy-search'
-import { isModule } from './utils'
+import { isModule, getLocal, setLocal } from './utils'
 import JSZip from 'jszip'
 import { saveAs } from 'file-saver'
 import stringifyObject from 'stringify-object'
@@ -99,7 +99,7 @@ export default {
       url: 'https://unpkg.com/@matoseb/utils',
       allLibrairies: [],
       loading: true,
-      copyDeps: localStorage.getItem('copyDeps'),
+      copyDeps: getLocal('copyDeps', true),
       infos: { version: null, fileName: 'matoseb-utils' },
       searchString: '',
       textLib: null,
@@ -109,7 +109,7 @@ export default {
     copyDeps: {
       handler(value) {
         document.body.classList.toggle('--highlight-deps', value)
-        localStorage.setItem('copyDeps', value)
+        setLocal('copyDeps', value)
       },
       immediate: true,
     },
