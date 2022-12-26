@@ -20,6 +20,19 @@ export function screenToWorld(
   }
 }
 
+export function worldToScreen(
+  ctxOrMatrix,
+  oldX,
+  oldY,
+  { pixelDensity = devicePixelRatio } = {}
+) {
+  if (ctxOrMatrix instanceof CanvasRenderingContext2D)
+    ctxOrMatrix = ctxOrMatrix.getTransform()
+
+  const { x, y } = ctxOrMatrix.transformPoint(new DOMPoint(oldX, oldY))
+  return { x: x / pixelDensity, y: y / pixelDensity }
+}
+
 export function skew(ctx, x, y) {
   return ctx.transform(1, Math.tan(y), Math.tan(x), 1, 0, 0)
 }
