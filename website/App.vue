@@ -205,7 +205,9 @@ export default {
         depedencies.forEach((d) => {
           if (d.name === name) return
 
-          const re = new RegExp(`(?<!\\.)${d.name}(?!\\w)`) // not preceeded by dot and not followed by letters
+          const re = new RegExp(`[^\\.]${d.name}(?!\\w)`) // not preceeded by dot and not followed by letters
+          // (?!\\w)
+          // (?<!\\.)
 
           if (!re.test(method)) return
 
