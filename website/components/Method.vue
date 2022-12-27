@@ -67,8 +67,8 @@ export default {
 
       if (parts.length) {
         const separator = '-'.repeat(10)
-        parts.unshift(`//#region depedencies for ${this.name} ${separator}`)
-        parts.push(`//#endregion ${separator}`)
+        parts.unshift(`// #region dependencies for ${this.name} ${separator}`)
+        parts.push(`// #endregion ${separator}`)
       }
 
       parts.push(this.text)
