@@ -105,7 +105,7 @@ export default {
       allLibrairies: [],
       loading: true,
       copyDeps: getLocal('copyDeps', true),
-      searchString: '',
+      searchString: getLocal('searchString', ''),
       textLib: null,
       infos,
       details: [],
@@ -117,10 +117,16 @@ export default {
       handler(value) {
         const elem = this.$refs.allDetailsElem
         elem.open = !value.every((detail) => detail.value === false)
+        setLocal('details', value)
       },
       deep: true,
     },
+    searchString(value) {
+      setLocal('searchString', value)
+    },
     filtered() {
+      if (this.searchIsEmpty) return
+
       this.librairies.forEach((e) => {
         const opened = e.methods.length > 0
         const detail = this.details[e.index]
@@ -226,10 +232,16 @@ export default {
 
     this.allLibrairies = libs
 
-    this.details = this.allLibrairies.map((lib) => ({
-      value: true,
-      initial: null,
-    }))
+    this.details = getLocal('details', [])
+
+    this.allLibrairies.forEach((lib, index) => {
+      if (this.details[index]) return
+
+      this.details.splice(index, 0, {
+        value: true,
+        initial: null,
+      })
+    })
 
     this.loading = false
 
