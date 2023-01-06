@@ -6,7 +6,6 @@ describe('settle function', () => {
     const reason = 'error'
     await expect(settle(Promise.reject(reason))).resolves.toEqual({
       reason,
-      value: undefined,
       status: 'rejected',
     })
   })
@@ -14,7 +13,6 @@ describe('settle function', () => {
   test('with fulfilled promise', async () => {
     const value = '23'
     await expect(settle(Promise.resolve(value))).resolves.toEqual({
-      reason: undefined,
       value,
       status: 'fulfilled',
     })
