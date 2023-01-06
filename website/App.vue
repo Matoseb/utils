@@ -100,9 +100,9 @@ export default {
       allLibrairies: [],
       loading: true,
       copyDeps: getLocal('copyDeps', true),
-      infos: { version: null, fileName: 'matoseb-utils' },
       searchString: '',
       textLib: null,
+      infos,
     }
   },
   watch: {
@@ -162,12 +162,13 @@ export default {
     },
 
     textString() {
-      const version = this.infos.version ? `@${this.infos.version}` : ''
+      const version = infos.version ? `@${infos.version}` : ''
       // bug https://githubhot.com/repo/underfin/vite-plugin-vue2/issues/131
       return `<script src="${this.url}${version}"><\/script>`
     },
   },
   async mounted() {
+    // console.log(MatosebUtils.promise.settle)
     // const infos = await fetch(`${this.url}/package.json`).then((e) => e.json())
     // console.log(`${this.url}@${infos.version}`)
     fetch(`${this.url}@${infos.version}`)
@@ -190,8 +191,6 @@ export default {
     this.allLibrairies = libs
 
     // console.log(MatosebUtils)
-
-    this.infos = Object.assign({}, this.infos, infos)
 
     this.loading = false
 
@@ -258,7 +257,7 @@ export default {
     },
     onDownloadBtn(event) {
       event.preventDefault()
-      const { fileName, version } = this.infos
+      const { fileName, version } = infos
       const name = `${fileName}-v${version}`
       const zip = new JSZip()
       zip.file(`${name}.js`, this.textLib)
