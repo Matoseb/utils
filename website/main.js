@@ -25,6 +25,9 @@ import VueShortKey from 'vue-shortkey'
 
 Vue.use(VueShortKey)
 
+import VueDetails from 'vue-details'
+Vue.component('v-details', VueDetails)
+
 new Vue({
   render: (h) => h(App),
 }).$mount('#app')

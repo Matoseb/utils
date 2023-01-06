@@ -311,7 +311,7 @@
 
 "@matoseb/utils@file:..":
   "resolved" "file:.."
-  "version" "0.1.2"
+  "version" "0.1.4"
 
 "@rollup/pluginutils@^4.1.1":
   "integrity" "sha512-iKnFXr7NkdZAIHiIWE+BX5ULi/ucVFYWD6TbAV+rZctiRTY2PL6tsIKhoIOaoskiWAkgu+VsbXgUVDNLHf+InQ=="
@@ -1911,6 +1911,11 @@
   "version" "0.3.3"
   dependencies:
     "clipboard" "^2.0.0"
+
+"vue-details@^1.0.9":
+  "integrity" "sha512-n9x9XH8u+1HkuMJStdmP1VAQgOzW9b0qwyt0bv5G1fN9JpgEn2bYd29aeURGzf+QsRsTeB2Wq5QrJLl4UM2rPQ=="
+  "resolved" "https://registry.npmjs.org/vue-details/-/vue-details-1.0.9.tgz"
+  "version" "1.0.9"
 
 "vue-meta@^2.4.0":
   "integrity" "sha512-XEeZUmlVeODclAjCNpWDnjgw+t3WA6gdzs6ENoIAgwO1J1d5p1tezDhtteLUFwcaQaTtayRrsx7GL6oXp/m2Jw=="

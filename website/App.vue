@@ -2,6 +2,11 @@
 #app
   header.header
     .header__title
+      details(
+        ref="allDetailsElem"
+        @click.prevent="toggleDetails"
+      )
+        summary
       h1
         Clipboard(
           name="@matoseb/utils"
@@ -32,10 +37,10 @@
       )
     template(
       v-else
-      v-for="(item, index) in librairies"
+      v-for="(item) in librairies"
     )
-      details.libs__modules(
-        open
+      v-details.libs__modules(
+        v-model="details[item.index].value"
         v-if="item.methods.length > 0"
       )
         summary.libs__modules__summary
@@ -103,9 +108,35 @@ export default {
       searchString: '',
       textLib: null,
       infos,
+      details: [],
+      allDetails: true,
     }
   },
   watch: {
+    details: {
+      handler(value) {
+        const elem = this.$refs.allDetailsElem
+        elem.open = !value.every((detail) => detail.value === false)
+      },
+      deep: true,
+    },
+    filtered() {
+      this.librairies.forEach((e) => {
+        const opened = e.methods.length > 0
+        const detail = this.details[e.index]
+        if (detail.initial === null) detail.initial = detail.value
+        detail.value = opened
+      })
+    },
+    //! must update after filtered!
+    searchIsEmpty(isEmpty) {
+      if (!isEmpty) return
+
+      this.details.map((detail) => {
+        detail.value = detail.initial
+        detail.initial = null
+      })
+    },
     copyDeps: {
       handler(value) {
         document.body.classList.toggle('--highlight-deps', value)
@@ -115,6 +146,9 @@ export default {
     },
   },
   computed: {
+    searchIsEmpty() {
+      return isWhiteSpaceOnly(this.searchString)
+    },
     searchPlaceholder() {
       const shortcut = platform.mouse ? (platform.macos ? '⌘F' : 'Ctrl F') : ''
 
@@ -143,6 +177,7 @@ export default {
     librairies() {
       return this.allLibrairies.map((item) => ({
         name: item.name,
+        index: item.index,
         methods: this.getMethod(item),
       }))
     },
@@ -181,22 +216,34 @@ export default {
     //   /* @vite-ignore */ `${this.url}@${infos.version}/src/index.js`
     // )
 
-    const libs = Object.entries(MatosebUtils).map(([name, lib]) => ({
+    const libs = Object.entries(MatosebUtils).map(([name, lib], index) => ({
       name,
       lib,
+      index,
     }))
 
     libs.sort((a, b) => a.name.localeCompare(b.name))
 
     this.allLibrairies = libs
 
-    // console.log(MatosebUtils)
+    this.details = this.allLibrairies.map((lib) => ({
+      value: true,
+      initial: null,
+    }))
 
     this.loading = false
 
     if (platform.mouse) this.focusSearch()
   },
   methods: {
+    toggleDetails(event) {
+      const elem = this.$refs.allDetailsElem
+      const opened = !elem.open
+      elem.open = opened
+      this.details.forEach((detail) => {
+        detail.value = opened
+      })
+    },
     getDepedencies(name, method, depedencies, maxNesting = 5) {
       const matchedDep = new Set()
 
@@ -295,14 +342,15 @@ function isWhiteSpaceOnly(str) {
   &__title {
     flex-wrap: nowrap;
     display: flex;
+    padding-left: $gap-medium;
 
     > h1 {
       display: flex;
     }
 
-    > span {
-      padding: $gap-medium;
-      padding-left: 0;
+    > :not(h1) {
+      padding: $gap-medium 0;
+      // padding-left: 0;
     }
   }
 
