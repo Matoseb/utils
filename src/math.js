@@ -32,6 +32,12 @@ export function toDegrees(radians) {
   return radians * (180 / Math.PI)
 }
 
+export function getDeltaAngle(current, target) {
+  const a = modulo((current - target), TAU);
+  const b = modulo((target - current), TAU);
+  return a < b ? -a : b;
+}
+
 /**
  * Exponential Lerp, distance between 0.125 and 0.25 is now exactly the same as the distance between 4 and 8
  * @param {number} a start
