@@ -50,13 +50,14 @@ export default {
   },
   methods: {
     getText(elem = this) {
-      const cl = isClass(elem.method)
+      const cl = isClass(elem.method) && elem.method.name
+      console.log(elem.method, cl)
 
       const isFunc = typeof elem.method === 'function'
       const declaration = isFunc ? '' : `const ${elem.name} = `
       const end = isFunc ? '' : `;`
 
-      const name =
+      let name =
         declaration +
         stringifyObject(elem.method, {
           transform: (obj, prop, originalResult) => {
@@ -65,8 +66,10 @@ export default {
         }) +
         end
 
-      // regex to replace name first chars that matches with empty string
-      return name.replace(/^class /, `class ${elem.name} `)
+      if (!RegExp(`^class ${elem.name} `).test(name))
+        name = name.replace(/^class /, `class ${elem.name} `)
+
+      return name
     },
     onGetAll() {
       const parts = []
