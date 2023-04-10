@@ -76,12 +76,16 @@ import Clipboard from './components/Clipboard.vue'
 import Link from './components/Link.vue'
 import TextAnimation from './components/TextAnimation.vue'
 import FuzzySearch from 'fuzzy-search'
-import { isModule, getLocal, setLocal } from './utils'
+import { getLocal, setLocal } from './utils'
 import JSZip from 'jszip'
 import { saveAs } from 'file-saver'
 import stringifyObject from 'stringify-object'
 import * as MatosebUtils from '@matoseb/utils/src'
 import infos from '@matoseb/utils/package.json'
+
+function isModule(value) {
+  return typeof value === 'object'
+}
 
 export default {
   components: {
@@ -170,9 +174,10 @@ export default {
           : { [category]: module.lib }
 
         const result = Object.entries(libs).map(([name, method]) => {
-          method = stringifyObject(method, {
-            transform: (obj, prop, originalResult) => originalResult,
-          })
+          // wtf
+          // const methodStr = stringifyObject(method, {
+          //   transform: (obj, prop, originalResult) => originalResult,
+          // })
           return { name, method, category }
         })
 
@@ -230,7 +235,7 @@ export default {
 
     libs.sort((a, b) => a.name.localeCompare(b.name))
 
-    this.allLibrairies = libs
+    this.allLibrairies = Object.freeze(libs)
 
     this.details = getLocal('details', [])
 
@@ -283,16 +288,13 @@ export default {
         })
       }
 
-      return Array.from(matchedDep)
+      const d = Array.from(matchedDep)
+      return d
     },
     focusSearch() {
       const elem = this.$refs.search
       elem.focus()
       elem.select()
-    },
-    toObject(item) {
-      const lib = this.getMethod(item)
-      return { name: item.name, method: Object.fromEntries(lib) }
     },
     inFiltered({ name, category }) {
       return (

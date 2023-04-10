@@ -1,6 +1,6 @@
 <template lang="pug">
 button.method(
-  v-tooltip="text"
+  v-tooltip="getText()"
   :data-name="name"
   :data-deps="deps"
   @click="onGetAll"
@@ -11,6 +11,10 @@ button.method(
 import Vue from 'vue'
 import stringifyObject from 'stringify-object'
 import Clipboard from './Clipboard.vue'
+
+function isClass(v) {
+  return typeof v === 'function' && /^\s*class\s+/.test(v.toString())
+}
 
 export default {
   extends: Clipboard,
@@ -43,26 +47,33 @@ export default {
     deps() {
       return this.depedencies.map((d) => d.name).join(' ')
     },
-    text() {
-      const declaration =
-        typeof this.method === 'function' ? '' : `const ${this.name} = `
-      return (
+  },
+  methods: {
+    getText(elem = this) {
+      const cl = isClass(elem.method)
+
+      const isFunc = typeof elem.method === 'function'
+      const declaration = isFunc ? '' : `const ${elem.name} = `
+      const end = isFunc ? '' : `;`
+
+      const name =
         declaration +
-        stringifyObject(this.method, {
+        stringifyObject(elem.method, {
           transform: (obj, prop, originalResult) => {
             return originalResult
           },
-        })
-      )
+        }) +
+        end
+
+      // regex to replace name first chars that matches with empty string
+      return name.replace(/^class /, `class ${elem.name} `)
     },
-  },
-  methods: {
     onGetAll() {
       const parts = []
 
       if (document.body.classList.contains('--highlight-deps'))
         this.depedencies.forEach((d) => {
-          parts.push(d.method)
+          parts.push(this.getText(d))
         })
 
       if (parts.length) {
@@ -71,7 +82,8 @@ export default {
         parts.push(`// #endregion ${separator}`)
       }
 
-      parts.push(this.text)
+      // console.log(this.getText())
+      parts.push(this.getText())
 
       this.copy(parts.join('\n\n'))
     },

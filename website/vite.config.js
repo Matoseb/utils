@@ -9,6 +9,7 @@ export default {
   },
   server: {
     host: true,
+    port: 1000,
   },
   // optimizeDeps: {
   //   exclude: ["./"],
