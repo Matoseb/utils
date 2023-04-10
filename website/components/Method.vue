@@ -51,7 +51,6 @@ export default {
   methods: {
     getText(elem = this) {
       const cl = isClass(elem.method) && elem.method.name
-      console.log(elem.method, cl)
 
       const isFunc = typeof elem.method === 'function'
       const declaration = isFunc ? '' : `const ${elem.name} = `
