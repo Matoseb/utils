@@ -17,7 +17,7 @@ export class Clock {
   }
 }
 
-export function throttle(callback, delay) {
+export function throttle(callback, millis) {
   let timeout
   let wait = 0
   return (e) => {
@@ -26,6 +26,6 @@ export function throttle(callback, delay) {
       callback(e)
       timeout = undefined
     }, wait)
-    wait = delay
+    wait = millis
   }
 }
