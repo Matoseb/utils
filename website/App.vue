@@ -318,8 +318,7 @@ export default {
     },
     onDownloadBtn(event) {
       event.preventDefault()
-      const { fileName, version } = infos
-      const name = `${fileName}-v${version}`
+      const name = `${infos.name}@${infos.version}`
       const zip = new JSZip()
       zip.file(`${name}.js`, this.textLib)
       zip.generateAsync({ type: 'blob' }).then((blob) => {
