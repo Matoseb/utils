@@ -19,13 +19,18 @@ export class Clock {
 
 export function throttle(callback, millis) {
   let timeout
-  let wait = 0
+  let timestamp = -millis
+  let event
   return (e) => {
+    event = e
     if (timeout) return
+
+    const wait = Math.min(Math.max(timestamp + millis - Date.now(), 0), millis)
+
     timeout = globalThis.setTimeout(() => {
-      callback(e)
+      callback(event)
       timeout = undefined
+      timestamp = Date.now()
     }, wait)
-    wait = millis
   }
 }
