@@ -94,15 +94,6 @@ export default {
     Link,
     TextAnimation,
   },
-  metaInfo: {
-    title: '@matoseb/utils',
-    // titleTemplate: '%s - Yay!',
-    htmlAttrs: {
-      lang: 'en',
-      amp: true,
-    },
-    meta: [{ name: 'description', content: 'Javascript utilitaries' }],
-  },
   data() {
     return {
       url: 'https://unpkg.com/@matoseb/utils',
