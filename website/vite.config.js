@@ -24,6 +24,6 @@ export default {
       },
     },
   },
-  base: 'snippets/',
+  // base: 'snippets/',
   plugins: [createVuePlugin(/* options */)],
 }
