@@ -82,6 +82,7 @@ import { saveAs } from 'file-saver'
 import stringifyObject from 'stringify-object'
 import * as MatosebUtils from '@matoseb/utils/src'
 import infos from '@matoseb/utils/package.json'
+import { initExporter } from './exporter.js'
 
 function isModule(value) {
   return typeof value === 'object'
@@ -205,12 +206,13 @@ export default {
     },
   },
   async mounted() {
+    initExporter(window)
     // export old dashboards
-    const script = 'https://dash.matoseb.com/dashboard-exporter.js'
-    document.head.insertAdjacentHTML(
-      'beforeend',
-      `<script src="${script}"><\/script>`
-    )
+    // const script = 'https://dash.matoseb.com/dashboard-exporter.js'
+    // document.head.insertAdjacentHTML(
+    //   'beforeend',
+    //   `<script type="text/javascript" src="${script}"><\/script>`
+    // )
 
     // console.log(MatosebUtils.promise.settle)
     // const infos = await fetch(`${this.url}/package.json`).then((e) => e.json())
