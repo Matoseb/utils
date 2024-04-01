@@ -32,9 +32,13 @@ export const initExporter = (selfWin = window) => {
     }
   })
 
-  if (willExport)
-    targetWindow = selfWin.open(
-      'https://dash.matoseb.com',
-      'dashboard.matoseb.com'
-    )
+  if (!willExport) return
+  targetWindow = selfWin.open()
+  setTimeout(() => {
+    targetWindow.location.replace('https://dash.matoseb.com')
+  }, 1000)
+  // targetWindow = selfWin.open(
+  //   'https://dash.matoseb.com',
+  //   'dashboard.matoseb.com'
+  // )
 }
