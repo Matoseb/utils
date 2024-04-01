@@ -27,7 +27,7 @@ export const initExporter = (selfWin = window) => {
       }
     } else if (type === 'imported') {
       // empty storage
-      // localStorage.removeItem("dashboards");
+      localStorage.removeItem('dashboards')
       selfWin.close()
     }
   })
