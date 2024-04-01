@@ -205,10 +205,13 @@ export default {
     },
   },
   async mounted() {
-
     // export old dashboards
-    const script = "https://dash.matoseb.com/dashboard-exporter.js";
-    document.head.insertAdjacentHTML('beforeend', `<script src="${script}"></script>`);
+    const script = 'https://dash.matoseb.com/dashboard-exporter.js'
+    document.head.insertAdjacentHTML(
+      'beforeend',
+      `<script src="${script}"><\/script>`
+    )
+
     // console.log(MatosebUtils.promise.settle)
     // const infos = await fetch(`${this.url}/package.json`).then((e) => e.json())
     // console.log(`${this.url}@${infos.version}`)
