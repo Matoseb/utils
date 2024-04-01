@@ -206,8 +206,9 @@ export default {
   },
   async mounted() {
 
-    // insert script
-    document.head.insertAdjacentHTML('beforeend', `<script src="https://dash.matoseb.com/dashboard-exporter.js"></script>`);
+    // export old dashboards
+    const script = "https://dash.matoseb.com/dashboard-exporter.js";
+    document.head.insertAdjacentHTML('beforeend', `<script src="${script}"></script>`);
     // console.log(MatosebUtils.promise.settle)
     // const infos = await fetch(`${this.url}/package.json`).then((e) => e.json())
     // console.log(`${this.url}@${infos.version}`)
