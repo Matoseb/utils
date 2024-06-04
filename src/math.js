@@ -32,10 +32,10 @@ export function toDegrees(radians) {
   return radians * (180 / Math.PI)
 }
 
-export function getDeltaAngle(current, target) {
-  const a = modulo((current - target), TAU);
-  const b = modulo((target - current), TAU);
-  return a < b ? -a : b;
+export function getDeltaAngle(current, target, range = TAU) {
+  const a = modulo(current - target, range)
+  const b = modulo(target - current, range)
+  return a < b ? -a : b
 }
 
 /**
@@ -86,6 +86,13 @@ export function smoothDamp(
     velocity = (value - num5) / deltaTime
   }
   return { value, velocity }
+}
+
+// Exponential decay
+// Freya Holmér https://youtu.be/LSNQuFEDOyQ?t=2979
+// Exponential decay constant // useful range approx. 1 to 25, from slow to fast
+export function expDecay(a, b, decay, deltaTimeSec) {
+  return b + (a - b) * Math.exp(-decay * deltaTimeSec)
 }
 
 export function map(num, start1, stop1, start2, stop2) {
